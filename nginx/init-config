@@ -1,0 +1,13 @@
+# a minimal configuration to obtain a letsencrypt cert
+
+# required by the ~ /.well-known directive to let letsencrypt in
+root /var/www/html;
+
+server {
+  listen 80;
+  server_name data.inventaire.io;
+
+  location ~ /.well-known {
+    allow all;
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "elasticsearch-wikidata-dump-importer",
+  "name": "inv-elasticsearch",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
