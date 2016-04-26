@@ -1,7 +1,7 @@
 module.exports =
-  buildDocUrl: (base, entity)->
+  buildDocUrl: (base, type, entity)->
     { id } = entity
-    return "#{base}/#{id}"
+    return "#{base}/#{type}/#{id}"
 
   formatEntity: (entity)->
     entity.labels = formatSingleValue entity.labels
