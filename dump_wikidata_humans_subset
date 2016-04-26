@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+curl -s https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz |
+  # Decompress
+  gzip -d |
+  # Keep only entities with a claim involving Q5
+  # hopefully corresponding to P31:Q5 claims
+  grep "numeric\-id\":5}" |
+  # Remove claims and sitelinks, keeping only labels, aliases and descriptions.
+  # Rely on the fact that claims and sitelinks come last for every entity.
+  # Hugely reduce the size of the dump and of the future elaticsearch index,
+  # assuming that the place to play with claims has to be Wikidata SPARQL endpoint
+  sed -e 's/,"claims.*$/}/' > humans.ndjson
