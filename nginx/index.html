@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>data.inventaire.io</title>
+  <style media="screen" type="text/css">
+    main{
+      margin: 0 auto;
+      max-width: 30em;
+      font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+    }
+    .centered{
+      text-align: center;
+      margin: 2em;
+    }
+    .left{
+      text-align: left;
+    }
+    .button{
+      padding: 0.5em 1em 0.6em 1em;
+      color: white;
+      background-color: #319CC2;
+      border-radius: 3px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="centered">
+      <h1>Hello!</h1>
+      <p>
+        Guess what? We have our own tailored <a href="http://wikidata.org/">Wikidata</a> Search Engine!!
+      </p>
+      <img src="https://media.giphy.com/media/lF1XZv45kIwMw/giphy.gif" alt="happy">
+    </div>
+    <div class="left">
+      <p>
+        This is very much just an <a href="https://en.wikipedia.org/wiki/Elasticsearch">ElasticSearch</a> instance fed with a <a href="https://www.wikidata.org/wiki/Wikidata:Database_download#Database_dumps">Wikidata dump</a> subset to match inventaire.io's needs, that is, mainly to feed autocomplete fields with Wikidata entities already filtered by type (<a href="https://www.wikidata.org/wiki/Property:P31">P31</a>).
+      </p>
+      <p class="centered"><a class="button" href="https://github.com/inventaire/inv-elasticsearch">show me the code!</a></p>
+      <p>
+        You can directly access <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">ElasticSearch API</a>, but endpoints will be progressively whitelisted to match inventaire.io's needs:
+      </p>
+      <ul>
+        <li>
+          <a href="/wikidata/humans/_search?q=Victor%20Hugo">/wikidata/humans/_search</a>
+        </li>
+      </ul>
+      <p>
+        This is primarly addressing the needs of inventaire.io but you are very welcome to have fun with it.
+        If you find value in it, <a href="https://inventaire.io/donate">please consider a donation</a>, and if you wish to make an heavy use of this web service, get in touch!
+      </p>
+      <p class="centered">Contact: <a href="mailto:hello@inventaire.io">hello@inventaire.io</a></p>
+    </div>
+  </main>
+</body>
+</html>

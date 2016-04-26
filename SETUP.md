@@ -43,5 +43,6 @@ sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 sudo openssl dhparam -out /etc/letsencrypt/live/data.inventaire.io/dhparams.pem 2048
 # now if everything went well and we got the cert, load the real nginx config
 sudo cp ./nginx/config /etc/nginx/sites-enabled/default
+sudo cp ./nginx/index.html /var/www/html
 sudo nginx -s reload
 ```

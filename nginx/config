@@ -41,6 +41,10 @@ server {
     allow all;
   }
 
+  location = / {
+    rewrite .* /index.html break;
+  }
+
   location / {
     return 403;
     break;
