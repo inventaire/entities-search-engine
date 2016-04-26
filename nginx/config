@@ -32,6 +32,12 @@ server {
   gzip on;
   gzip_types *;
   location ~* ^/wikidata/humans/_search {
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Methods' 'GET';
+    limit_except GET POST {
+        allow all;
+    }
     proxy_pass http://elasticsearch;
     proxy_redirect off;
   }
