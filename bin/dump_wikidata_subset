@@ -2,7 +2,6 @@
 
 wdfilter=./node_modules/wikidata-filter/bin/wikidata-filter
 import_to_elastic=./bin/import_to_elasticsearch
-coffee=./node_modules/coffee-script/bin/coffee
 
 curl -s https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz |
   # Decompress
