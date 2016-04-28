@@ -1,8 +1,8 @@
-# inv-elasticsearch
+# Wikidata Subset Search Engine
 
-tools to setup an ElasticSearch instance tailored for [inventaire](http://github.com/inventaire/inventaire)'s needs, that is, mainly searching on subsets of wikidata dumps
+Tools to setup an ElasticSearch instance fed with subsets of Wikidata, to answer questions like *"give me all the humans with a name starting by xxx"* in a super snappy way, typically for the needs of an autocomplete field.
 
-Powering [data.inventaire.io](https://data.inventaire.io)
+Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inventaire](http://github.com/inventaire/inventaire)'s needs, but could probably be adapted to other use cases
 
 ## Setup
 see [setup](./SETUP.md) for ElasticSearch and Nginx installation
@@ -27,8 +27,9 @@ or try the result on data.inventaire.io
 curl "https://data.inventaire.io/wikidata/humans/_search?q=Victor%20Hugo"
 ```
 
-**Whitelisted endpoints:**
+## data.inventaire.io
+Whitelisted endpoints:
 * `/wikidata/humans/_search`
 
-**References:**
+## References
 * [ElasticSearch Search API](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)

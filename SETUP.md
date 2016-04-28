@@ -1,3 +1,11 @@
+#### install wikidata-subset-search-engine
+```sh
+git clone https://github.com/inventaire/wikidata-subset-search-engine.git
+cd wikidata-subset-search-engine
+```
+
+<hr>
+
 #### install java (elasticsearch dependency)
 * Ubuntu
 ```sh
