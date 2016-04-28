@@ -7,7 +7,7 @@ Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inv
 ## Setup
 see [setup](./SETUP.md) for ElasticSearch and Nginx installation
 
-**import a filtered Wikidata dump into ElasticSearch**
+#### import a filtered Wikidata dump into ElasticSearch
 ```sh
 # the wikidata claim that entities have to match to be in the subset
 claim=P31:Q5
@@ -15,6 +15,24 @@ claim=P31:Q5
 datatype=humans
 
 ./bin/dump_wikidata_subset $claim $datatype
+# time for a coffee!
+```
+
+:warning: *you are about to download a whole [Wikidata dump](https://www.wikidata.org/wiki/Wikidata:Database_download#JSON_dumps_.28recommended.29) that is something like 7GB compressed. Only the filtered output should be written to your disk though.*
+
+#### import multiple Wikidata subsets into ElasticSearch
+The same as the above but saving the Wikdiata dump to disk to avoid downloading 7GB multiple times when one time would be enough. This time, you do need the 7GB disk space, plus the space that will take your subsets in ElasticSearch
+```sh
+alias wdfilter=./node_modules/wikidata-filter/bin/wikidata-filter
+alias import_to_elastic=./bin/import_to_elasticsearch
+
+curl -s https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz > wikidata-dump.json.gz
+
+cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q5 --omit type,claims,sitelinks | import_to_elastic humans
+# => will be available at http://localhost:9200/wikidata/humans
+
+cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q571 --omit type,claims,sitelinks | import_to_elastic books
+# => will be available at http://localhost:9200/wikidata/books
 ```
 
 ## Query ElasticSearch

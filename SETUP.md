@@ -2,6 +2,8 @@
 ```sh
 git clone https://github.com/inventaire/wikidata-subset-search-engine.git
 cd wikidata-subset-search-engine
+# assumes you have [NodeJs](http://nodejs.org/) and thus npm installed
+npm install
 ```
 
 <hr>
