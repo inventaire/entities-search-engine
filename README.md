@@ -5,7 +5,16 @@ Tools to setup an ElasticSearch instance fed with subsets of Wikidata, to answer
 Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inventaire](http://github.com/inventaire/inventaire)'s needs, but could probably be adapted to other use cases
 
 ## Setup
-see [setup](./SETUP.md) for ElasticSearch and Nginx installation
+
+### Dependencies
+see [setup](./SETUP.md) to install dependencies:
+* [NodeJs](https://en.wikipedia.org/wiki/Nodejs)
+* [ElasticSearch](https://en.wikipedia.org/wiki/Elasticsearch)
+* [Nginx](https://en.wikipedia.org/wiki/Nginx)
+* [Let's Encrypt](https://en.wikipedia.org/wiki/Let's_Encrypt)
+* already installed in any good **nix* system: curl, gzip
+
+### Wikidata filtered-dump import
 
 #### import a filtered Wikidata dump into ElasticSearch
 ```sh

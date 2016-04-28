@@ -1,8 +1,18 @@
+#### install nodejs
+* the official way: [NodeJs](http://nodejs.org/)
+* what I would recommand, use the awesome version manager [NVM](https://github.com/creationix/nvm):
+```sh
+# download nvm (I trust this script, but you might want to read it as *one should never pipe a script to shell*  :p)
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+# close and reopen terminal
+# install the lastest LTS version
+nvm install 4
+```
+
 #### install wikidata-subset-search-engine
 ```sh
 git clone https://github.com/inventaire/wikidata-subset-search-engine.git
 cd wikidata-subset-search-engine
-# assumes you have [NodeJs](http://nodejs.org/) and thus npm installed
 npm install
 ```
 
@@ -13,6 +23,7 @@ npm install
 ```sh
 sudo add-apt-repository ppa:webupd8team/java -y
 sudo apt-get update
+# not libre, but recommanded by ElasticSearch :/
 sudo apt-get install oracle-java8-installer -y
 ```
 
