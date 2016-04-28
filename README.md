@@ -28,7 +28,7 @@ datatype=humans
 ```
 What happens here:
 * we download the latest [Wikidata dump](https://www.wikidata.org/wiki/Wikidata:Database_download#JSON_dumps_.28recommended.29)
-* pipe it to [wikidata-filter](github.com/maxlath/wikidata-filter) to keep only entities matching P31:Q5 and keeping only the entities attributes required by a full-text search engine, that is: id, labels, aliases, descriptions
+* pipe it to [wikidata-filter](https://github.com/maxlath/wikidata-filter) to keep only entities matching the claim `P31:Q5` and keeping only the entities attributes required by a full-text search engine, that is: `id`, `labels`, `aliases`, `descriptions`
 * pipe those filtered entities to ElasticSearch `wikidata` index under the datatype `humans`, making those entities searchable from the endpoint `http://localhost:9200/wikidata/humans/_search` (see [ElasticSearch API doc](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html))
 
 :warning: *you are about to download a whole Wikidata dump that is something like 7GB compressed. Only the filtered output should be written to your disk though.*
@@ -60,7 +60,7 @@ curl "https://data.inventaire.io/wikidata/humans/_search?q=Victor%20Hugo"
 
 ## data.inventaire.io
 Whitelisted endpoints:
-* `/wikidata/humans/_search`
+* [`/wikidata/humans/_search`](https://data.inventaire.io/wikidata/humans/_search?q=Victor)
 
 ## References
 * [ElasticSearch Search API](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)
