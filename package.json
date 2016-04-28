@@ -13,6 +13,10 @@
     "colors": "^1.1.2",
     "config": "^1.20.1",
     "request": "^2.72.0",
-    "split": "^1.0.0"
+    "split": "^1.0.0",
+    "wikidata-filter": "^1.0.0"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.10.0"
   }
 }

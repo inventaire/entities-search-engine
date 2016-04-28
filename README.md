@@ -7,14 +7,14 @@ Powering [data.inventaire.io](https://data.inventaire.io)
 ## Setup
 see [setup](./SETUP.md) for ElasticSearch and Nginx installation
 
-**get a filtered Wikidata dump**
+**import a filtered Wikidata dump into ElasticSearch**
 ```sh
-./dump_wikidata_humans_subset
-```
+# the wikidata claim that entities have to match to be in the subset
+claim=P31:Q5
+# the type that will be passed to ElasticSearch 'wikidata' index
+datatype=humans
 
-**load the dump subset into ElasticSearch**
-```sh
-./import.coffee humans humans.ndjson
+./bin/dump_wikidata_subset $claim $datatype
 ```
 
 ## Query ElasticSearch

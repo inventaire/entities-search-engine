@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+wdfilter=./node_modules/wikidata-filter/bin/wikidata-filter
+import_to_elastic=./bin/import_to_elasticsearch
+coffee=./node_modules/coffee-script/bin/coffee
+
+curl -s https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz |
+  # Decompress
+  gzip -d |
+  # Keep only entities having the claim P31:Q5
+  # Omit the attributes type, claims, sitelinks,
+  # keeping only labels, aliases and descriptions.
+  $wdfilter -c $1 -o type,claims,sitelinks |
+  $import_to_elastic $2

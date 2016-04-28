@@ -1,18 +1,13 @@
 #!/usr/bin/env coffee
-
-[ type, filePath ] = process.argv.slice 2
-fs = require 'fs'
+[ type ] = process.argv.slice 2
 split = require 'split'
 require 'colors'
 
 unless /^\w+$/.test type
   throw new Error "invalid data type: #{type}"
 
-# will throw if the file doesn't exist
-fs.statSync filePath
-
-{ removeTrailingComma, isJsonLine, logCount, error } = require './lib/helpers'
-putToElasticSearch = require('./lib/put_to_elasticsearch')(type)
+{ removeTrailingComma, isJsonLine, logCount, error } = require './helpers'
+putToElasticSearch = require('./put_to_elasticsearch')(type)
 
 onLine = (line)->
   # ignore empty line
@@ -33,7 +28,7 @@ done = ->
   # DONT EXIT THE PROCESS YET
   # as requests should still be ongoing
 
-fs.createReadStream filePath
+process.stdin
 .pipe split()
 .on 'data', onLine
 .on 'error', error.bind(null, 'stream error')
