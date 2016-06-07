@@ -32,6 +32,7 @@ curl "https://data.inventaire.io/wikidata/humans/_search?q=Victor%20Hugo"
 ## data.inventaire.io
 Whitelisted endpoints:
 * [`/wikidata/humans/_search`](https://data.inventaire.io/wikidata/humans/_search?q=Victor)
+* [`/wikidata/genres/_search`](https://data.inventaire.io/wikidata/genres/_search?q=Biographie)
 
 ## References
 * [ElasticSearch Search API](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)
