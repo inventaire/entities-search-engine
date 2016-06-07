@@ -37,16 +37,15 @@
     </div>
     <div class="left">
       <p>
-        This is very much just an <a href="https://en.wikipedia.org/wiki/Elasticsearch">ElasticSearch</a> instance fed with a <a href="https://www.wikidata.org/wiki/Wikidata:Database_download#Database_dumps">Wikidata dump</a> subset to match inventaire.io's needs, that is, mainly to feed autocomplete fields with Wikidata entities already filtered by type (<a href="https://www.wikidata.org/wiki/Property:P31">P31</a>).
+        This is very much just an <a href="https://en.wikipedia.org/wiki/Elasticsearch">ElasticSearch</a> instance fed with a <a href="https://www.wikidata.org/wiki/Wikidata:Database_download#Database_dumps">Wikidata dump</a> subset to match inventaire.io's needs, that is, mainly to feed inventaire's autocomplete fields with Wikidata entities already filtered to match the fields' needs.
       </p>
       <p class="centered"><a class="button" href="https://github.com/inventaire/wikidata-subset-search-engine">show me the code!</a></p>
       <p>
         You can directly access <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">ElasticSearch API</a>, but endpoints will be progressively whitelisted to match inventaire.io's needs:
       </p>
       <ul>
-        <li>
-          <a href="/wikidata/humans/_search?q=Victor%20Hugo">/wikidata/humans/_search</a>
-        </li>
+        <li><a href="/wikidata/humans/_search?q=Victor%20Hugo">/wikidata/humans/_search</a></li>
+        <li><a href="/wikidata/genres/_search?q=Biography">/wikidata/genres/_search</a></li>
       </ul>
       <p>
         This is primarly addressing the needs of inventaire.io but you are very welcome to have fun with it.
