@@ -1,0 +1,17 @@
+#!/usr/bin/env coffee
+require 'colors'
+{ exec } = require 'child_process'
+callOneByOne = require './lib/call_one_by_one'
+wdsparql = "./node_modules/wikidata-cli/bin/wdsparql -s"
+sparqlFolder = './queries/sparql'
+types = require('./lib/types_parser')(sparqlFolder, 'rq')
+
+cmd = (type)->
+  "#{wdsparql} #{sparqlFolder}/#{type}.rq > ./queries/results/#{type}.json"
+
+makeQuery = (type, callback)->
+  exec cmd(type), (err, res)->
+    if err then callback err
+    else callback null, res
+
+callOneByOne types, 'query update', makeQuery

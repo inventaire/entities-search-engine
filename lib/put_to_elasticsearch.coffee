@@ -7,9 +7,11 @@ request = require 'request'
 { error } = require './helpers'
 
 module.exports = (type)->
-  putFn = (line)->
-    entity = formatEntity JSON.parse(line)
+  return putFn = (data, parse=true, callback)->
+    if parse then data = JSON.parse data
+    entity = formatEntity data
     url = buildDocUrl indexBase, type, entity
+    callback ?= ->
 
     options =
       method: 'PUT'
@@ -17,8 +19,10 @@ module.exports = (type)->
       body: entity
       json: true
 
-    cb = (err, res, body)->
-      if err then error 'request err', url, err
-      else console.log 'success'.green, entity.id
-
-    request options, cb
+    request options, (err, res, body)->
+      if err
+        error 'request err', url, err
+        callback err
+      else
+        console.log 'added'.green, "#{indexBase}/#{type}/#{entity.id}"
+        callback null

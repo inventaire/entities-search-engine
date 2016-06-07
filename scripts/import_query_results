@@ -1,0 +1,25 @@
+#!/usr/bin/env coffee
+require 'colors'
+resultsFolder = './queries/results'
+fs = require 'fs'
+breq = require 'bluereq'
+wdk = require 'wikidata-sdk'
+
+types = require('./lib/types_parser')(resultsFolder, 'json')
+callOneByOne = require './lib/call_one_by_one'
+
+importEntities = (type, callback)->
+  # Beware of the path leading dot: require works from __dirname
+  # not from process.cwd()
+  ids = require ".#{resultsFolder}/#{type}.json"
+    # filtering-out properties and blank nodes (type: bnode)
+    .filter (id)-> wdk.isWikidataEntityId id
+
+  breq.post 'http://localhost:3000',
+    type: type
+    ids: ids
+  .then (res)-> callback null, res.body
+  .catch (err)-> callback err, null
+
+
+callOneByOne types, 'import', importEntities
