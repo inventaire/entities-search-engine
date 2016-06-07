@@ -8,6 +8,7 @@
     "start": "supervisor -w . server/server.coffee",
     "daemon": "./scripts/forever start",
     "restart": "./scripts/forever restart",
+    "stop": "./scripts/forever stop",
     "update-query-results": "./scripts/update_query_results",
     "import-query-results": "./scripts/import_query_results",
     "update-and-import-all": "npm run update-query-results all && npm run import-query-results all"
