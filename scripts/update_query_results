@@ -5,12 +5,23 @@ callOneByOne = require './lib/call_one_by_one'
 wdsparql = "./node_modules/wikidata-cli/bin/wdsparql -s"
 sparqlFolder = './queries/sparql'
 types = require('./lib/types_parser')(sparqlFolder, 'rq')
+fs = require 'fs'
 
-cmd = (type)->
+filePath = (type)-> "./queries/results/#{type}.json"
+
+archive = (type)->
+  file = filePath type
+  { mtime } = fs.statSync file
+  timestamp = mtime.toISOString().replace(':', '-').split(':')[0]
+  renamed = file.replace '.json', ".#{timestamp}.json"
+  return "[ -e #{file} ] && mv #{file} #{renamed}"
+
+update = (type)->
   "#{wdsparql} #{sparqlFolder}/#{type}.rq > ./queries/results/#{type}.json"
 
 makeQuery = (type, callback)->
-  exec cmd(type), (err, res)->
+  cmd = "#{archive(type)} ; #{update(type)}"
+  exec cmd, (err, res)->
     if err then callback err
     else callback null, res
 
