@@ -1,0 +1,35 @@
+#!/usr/bin/env coffee
+
+# Pass the path of a results json file, supposedly made of an array of ids:
+# all those ids documents will be deleted
+[ resultPath ] = process.argv.slice(2)
+
+resolvePath = require './lib/resolve_path'
+ids = require resolvePath(resultPath)
+request = require 'request'
+require 'colors'
+
+type = resultPath.split('/').slice(-1)[0].split('.')[0]
+console.log 'type'.blue, type
+total = ids.length
+console.log 'ids'.blue, total
+
+
+# TODO: use the Bulk API
+# https://www.elastic.co/guide/en/elasticsearch/reference/2.3/docs-bulk.html
+deleteOne = ->
+  id = ids.shift()
+  options =
+    method: 'DELETE'
+    url: "http://localhost:9200/wikidata/#{type}/#{id}"
+
+  request options, (err, res)->
+    if err then console.log 'err'.red, err.stack
+    else
+      console.log 'deleted'.green, id, "remaining: #{ids.length}".grey
+      if ids.length > 0
+        setTimeout deleteOne, 200
+
+# let 5 seconds to kill the process if something is wrong
+console.log 'starting in 5 seconds...'.grey
+setTimeout deleteOne, 5000

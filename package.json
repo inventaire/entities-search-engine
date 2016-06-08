@@ -11,7 +11,8 @@
     "stop": "./scripts/forever stop",
     "update-query-results": "./scripts/update_query_results",
     "import-query-results": "./scripts/import_query_results",
-    "update-and-import-all": "npm run update-query-results all && npm run import-query-results all"
+    "update-and-import-all": "npm run update-query-results all && npm run import-query-results all",
+    "delete-from-results": "./scripts/delete_from_results"
   },
   "author": "maxlath",
   "license": "MIT",
@@ -26,7 +27,7 @@
     "lodash.values": "^4.1.0",
     "request": "^2.72.0",
     "split": "^1.0.0",
-    "wikidata-cli": "^1.3.0",
+    "wikidata-cli": "^1.3.1",
     "wikidata-filter": "^1.0.0",
     "wikidata-sdk": "^3.2.0"
   },
