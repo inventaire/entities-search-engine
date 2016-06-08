@@ -1,8 +1,14 @@
-SELECT DISTINCT ?genre ?genreLabel WHERE {
-  # A genre is what people use as genre (P136) on works (Q386724)
-  ?work wdt:P31/wdt:P279* wd:Q386724 .
-  ?work wdt:P136 ?genre .
-  # And not:
-  # ?work wdt:P31/wdt:P279* wd:Q483394 .
-  # as genre such as short story (Q49084) are used as P31 (example: Q74039)
+SELECT DISTINCT ?genre WHERE {
+  {
+    # entities used as genre
+    ?book wdt:P31/wdt:P279* wd:Q571 .
+    ?book wdt:P136 ?genre .
+  } UNION {
+    # entities that are instances of literary genre
+    ?genre wdt:P31 wd:Q223393 .
+  }
+  MINUS {
+    # minus entities that are instances of a Wikimedia disambiguation page
+    ?genre wdt:P31/wdt:P279* wd:Q4167410 .
+  }
 }
