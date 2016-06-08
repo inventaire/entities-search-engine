@@ -1,0 +1,8 @@
+SELECT DISTINCT ?genre ?genreLabel WHERE {
+  # A genre is what people use as genre (P136) on works (Q386724)
+  ?work wdt:P31/wdt:P279* wd:Q386724 .
+  ?work wdt:P136 ?genre .
+  # And not:
+  # ?work wdt:P31/wdt:P279* wd:Q483394 .
+  # as genre such as short story (Q49084) are used as P31 (example: Q74039)
+}
