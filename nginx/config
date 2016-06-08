@@ -31,9 +31,11 @@ server {
 
   # Adding CORS headers for all so that the 403 response don't trigger CORS errors
   # giving the wrong clue
-  add_header 'Access-Control-Allow-Origin' '*';
-  add_header 'Access-Control-Allow-Methods' 'GET,POST';
-  add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+  # 'always' allows to add the header field regardless of the response code (that is, not only for 2xx, 3xx responses)
+  add_header 'Access-Control-Allow-Origin' '* ' always;
+  add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
+  add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type' always;
+
   gzip on;
   gzip_types *;
 
