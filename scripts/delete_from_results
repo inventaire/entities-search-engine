@@ -24,7 +24,15 @@ deleteOne = ->
     url: "http://localhost:9200/wikidata/#{type}/#{id}"
 
   request options, (err, res)->
-    if err then console.log 'err'.red, err.stack
+    if err
+      # if 404, continue as the document might just
+      # have been manully deleted earlier
+      if err.statusCode is 404
+        console.log '404'.yello, id
+        setTimeout deleteOne, 200
+      else
+        console.log 'err'.red, err
+
     else
       console.log 'deleted'.green, id, "remaining: #{ids.length}".grey
       if ids.length > 0
