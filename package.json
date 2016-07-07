@@ -9,8 +9,8 @@
     "daemon": "./scripts/forever start",
     "restart": "./scripts/forever restart",
     "stop": "./scripts/forever stop",
-    "update-query-results": "./scripts/update_query_results",
-    "import-query-results": "./scripts/import_query_results",
+    "update-query-results": "./node_modules/coffee-script/bin/coffee ./scripts/update_query_results",
+    "import-query-results": "./node_modules/coffee-script/bin/coffee ./scripts/import_query_results",
     "update-and-import-all": "npm run update-query-results all && npm run import-query-results all",
     "delete-from-results": "./scripts/delete_from_results"
   },
