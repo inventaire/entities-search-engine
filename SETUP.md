@@ -42,6 +42,8 @@ sudo service elasticsearch start
 sleep 5
 # Make sure service is running
 curl http://localhost:9200
+# Create the `wikidata` index
+curl -XPUT http://localhost:9200/wikidata
 ```
 ##### references
 * https://gist.github.com/ricardo-rossi/8265589463915837429d
