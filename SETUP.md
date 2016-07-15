@@ -69,3 +69,14 @@ sudo cp ./nginx/config /etc/nginx/sites-enabled/default
 sudo cp ./nginx/index.html /var/www/html
 sudo nginx -s reload
 ```
+
+#### renew letsencrypt cert
+[There should be an automated way using certbot](http://letsencrypt.readthedocs.io/en/latest/using.html#renewal) but this would require some more investigation and it doesn't look very stable so we would have to re-investigate periodically... Let's keep it dumb for now (as long as it works):
+```sh
+sudo cp ./nginx/init-config /etc/nginx/sites-enabled/default
+sudo nginx -s reload
+/opt/letsencrypt/letsencrypt-auto certonly --webroot -w /var/www/html -d data.inventaire.io
+sudo cp ./nginx/config /etc/nginx/sites-enabled/default
+sudo cp ./nginx/index.html /var/www/html
+sudo nginx -s reload
+```
