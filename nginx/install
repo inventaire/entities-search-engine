@@ -1,0 +1,26 @@
+sudo apt-get install nginx
+
+# Copy instead of simply linking as some system fail to find the symbolic link target
+sudo cp ./nginx.service /etc/systemd/system/
+
+# setup nginx systemd service
+sudo systemctl daemon-reload
+sudo systemctl enable nginx.service
+sudo systemctl start nginx.service
+
+sudo cp ./init-config /etc/nginx/sites-enabled/default
+# reload a first time with the config tailored for letsencrypt
+sudo nginx -s reload
+
+# install letsencrypt
+# Doc:
+# * http://letsencrypt.readthedocs.org/en/latest/using.html#webroot
+# * https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
+sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+/opt/letsencrypt/letsencrypt-auto certonly --webroot -w /var/www/html -d data.inventaire.io
+# generating a dhparam as required later in config.nginx
+sudo openssl dhparam -out /etc/letsencrypt/live/data.inventaire.io/dhparams.pem 2048
+# now if everything went well and we got the cert, load the real nginx config
+sudo cp ./config /etc/nginx/sites-enabled/default
+sudo cp ./index.html /var/www/html
+sudo nginx -s reload

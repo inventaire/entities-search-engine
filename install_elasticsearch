@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+##### references
+# * https://gist.github.com/ricardo-rossi/8265589463915837429d
+# * https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html
+
+# Add ElasticSearch repositories and install
+wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list
+# Add a repo with oracle-java8-installer
+# not libre, but recommanded by ElasticSearch :/
+sudo add-apt-repository ppa:webupd8team/java -y
+sudo apt-get update
+sudo apt-get install oracle-java8-installer elasticsearch -y
+
+# Start ElasticSearch at startup
+sudo systemctl daemon-reload
+sudo systemctl enable elasticsearch.service
+sudo systemctl start elasticsearch.service
+
+# Lets wait a little while ElasticSearch starts
+sleep 5
+# Make sure service is running
+curl http://localhost:9200
+# Create the `wikidata` index
+curl -XPUT http://localhost:9200/wikidata
