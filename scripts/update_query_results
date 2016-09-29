@@ -11,10 +11,14 @@ filePath = (type)-> "./queries/results/#{type}.json"
 
 archive = (type)->
   file = filePath type
-  { mtime } = fs.statSync file
-  timestamp = mtime.toISOString().replace(':', '-').split(':')[0]
-  renamed = file.replace '.json', ".#{timestamp}.json"
-  return "[ -e #{file} ] && mv #{file} #{renamed}"
+  try
+    { mtime } = fs.statSync file
+    timestamp = mtime.toISOString().replace(':', '-').split(':')[0]
+    renamed = file.replace '.json', ".#{timestamp}.json"
+    return "[ -e #{file} ] && mv #{file} #{renamed}"
+  catch err
+    console.log err.message
+    return "echo 'no file archived'"
 
 update = (type)->
   "#{wdsparql} #{sparqlFolder}/#{type}.rq > ./queries/results/#{type}.json"
