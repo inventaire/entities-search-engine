@@ -46,7 +46,7 @@ server {
     return 200 'hello!';
   }
 
-  location ~ \wikidata/(humans|genres)/_search$ {
+  location ~ \wikidata/(humans/|genres/|)_search$ {
     limit_except GET POST {
       allow all;
     }
