@@ -32,6 +32,7 @@
     "wikidata-sdk": "^3.2.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.10.0"
+    "coffee-script": "^1.10.0",
+    "supervisor": "^0.12.0"
   }
 }
