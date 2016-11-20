@@ -34,6 +34,8 @@ Both request would import Q112983 and Q185598 to `/wikidata/genres`
 
 * Run the query: `npm run update-query-results type-a type-b`. This will save the corresponding ids into `queries/results/${type}.json`
 
+* Add the type name to the server type whitelist by adding it to `./config/default.coffee` types list
+
 * After starting the server (see above), import the results: `npm run import-query-results type-a type-b`
 
 Both commands can be passed `all` instead of a list of types to run all the queries in the `queries/sparql` folder, and import all the results from `queries/results` in ElasticSearch, via the server.

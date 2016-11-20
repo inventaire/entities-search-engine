@@ -1,0 +1,9 @@
+SELECT DISTINCT ?publisher WHERE {
+  # entities used as publisher on books
+  ?book wdt:P31/wdt:P279* wd:Q571 .
+  ?book wdt:P123 ?publisher .
+  MINUS {
+    # minus entities that are instances of a Wikimedia disambiguation page
+    ?publisher wdt:P31 wd:Q4167410 .
+  }
+}

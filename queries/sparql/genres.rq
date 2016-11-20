@@ -1,14 +1,14 @@
 SELECT DISTINCT ?genre WHERE {
   {
+    # entities that are instances of literary genre
+    ?genre wdt:P31 wd:Q223393 .
+  } UNION {
     # entities used as genre
     ?book wdt:P31/wdt:P279* wd:Q571 .
     ?book wdt:P136 ?genre .
-  } UNION {
-    # entities that are instances of literary genre
-    ?genre wdt:P31 wd:Q223393 .
   }
   MINUS {
     # minus entities that are instances of a Wikimedia disambiguation page
-    ?genre wdt:P31/wdt:P279* wd:Q4167410 .
+    ?genre wdt:P31 wd:Q4167410 .
   }
 }

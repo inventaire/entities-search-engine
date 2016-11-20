@@ -6,4 +6,6 @@ module.exports =
   types: [
     'humans'
     'genres'
+    'publishers'
+    'series'
   ]
