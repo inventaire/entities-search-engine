@@ -19,7 +19,7 @@ see [setup](./SETUP.md) to install dependencies:
 * [Wikidata filtered-dump import](./wikidata_filtered_dump_import.md)
 * [Wikidata per-entity import](./wikidata_per_entity_import.md)
 
-## Query ElasticSearch
+## Query ElasticSearch
 
 ```sh
 curl "http://localhost:9200/wikidata/humans/_search?q=Victor%20Hugo"
@@ -36,3 +36,29 @@ Whitelisted endpoints:
 
 ## References
 * [ElasticSearch Search API](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)
+
+## Donate
+
+We are developing and maintaining tools to work with Wikidata from NodeJS, the browser, or simply the command line, with quality and ease of use at heart. Any donation will be interpreted as a "please keep going, your work is very much needed and awesome. PS: love". [Donate](https://liberapay.com/WikidataJS)
+
+## See Also
+
+### [wikidata-sdk](https://github.com/maxlath/wikidata-sdk)
+a javascript tool suite to query and work with wikidata data, heavily used by wikidata-cli
+
+### [wikidata-edit](https://www.npmjs.com/package/wikidata-edit)
+Edit Wikidata from NodeJS
+
+### [wikidata-cli](https://www.npmjs.com/package/wikidata-cli)
+The command-line interface to Wikidata
+
+### [wikidata-filter](https://npmjs.com/package/wikidata-filter)
+A command-line tool to filter a Wikidata dump by claim
+
+### [wikidata-taxonomy](https://github.com/nichtich/wikidata-taxonomy)
+Command-line tool to extract taxonomies from Wikidata
+
+### [Other Wikidata external tools](https://www.wikidata.org/wiki/Wikidata:Tools/External_tools)
+
+# License
+[MIT](LICENSE.md)
