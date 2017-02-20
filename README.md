@@ -4,6 +4,31 @@ Tools to setup an ElasticSearch instance fed with subsets of Wikidata, to answer
 
 Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inventaire](http://github.com/inventaire/inventaire)'s needs, but could probably be adapted to other use cases
 
+## Summary
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Setup](#setup)
+  - [Dependencies](#dependencies)
+  - [Data imports](#data-imports)
+- [Query ElasticSearch](#query-elasticsearch)
+- [data.inventaire.io](#datainventaireio)
+- [References](#references)
+- [Donate](#donate)
+- [See Also](#see-also)
+  - [wikidata-sdk](#wikidata-sdk)
+  - [wikidata-edit](#wikidata-edit)
+  - [wikidata-cli](#wikidata-cli)
+  - [wikidata-filter](#wikidata-filter)
+  - [wikidata-taxonomy](#wikidata-taxonomy)
+  - [Other Wikidata external tools](#other-wikidata-external-tools)
+- [You may also like](#you-may-also-like)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 ## Setup
 
 ### Dependencies
@@ -60,5 +85,11 @@ Command-line tool to extract taxonomies from Wikidata
 
 ### [Other Wikidata external tools](https://www.wikidata.org/wiki/Wikidata:Tools/External_tools)
 
-# License
+## You may also like
+
+[![inventaire banner](https://inventaire.io/public/images/inventaire-brittanystevens-13947832357-CC-BY-lighter-blue-4-banner-500px.png)](https://inventaire.io)
+
+Do you know [inventaire.io](https://inventaire.io/)? It's a web app to share books with your friends built on top of Wikidata! And its [libre software](http://github.com/inventaire/inventaire) too.
+
+## License
 [MIT](LICENSE.md)
