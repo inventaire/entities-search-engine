@@ -17,12 +17,6 @@ Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inv
 - [References](#references)
 - [Donate](#donate)
 - [See Also](#see-also)
-  - [wikidata-sdk](#wikidata-sdk)
-  - [wikidata-edit](#wikidata-edit)
-  - [wikidata-cli](#wikidata-cli)
-  - [wikidata-filter](#wikidata-filter)
-  - [wikidata-taxonomy](#wikidata-taxonomy)
-  - [Other Wikidata external tools](#other-wikidata-external-tools)
 - [You may also like](#you-may-also-like)
 - [License](#license)
 
@@ -67,23 +61,12 @@ Whitelisted endpoints:
 We are developing and maintaining tools to work with Wikidata from NodeJS, the browser, or simply the command line, with quality and ease of use at heart. Any donation will be interpreted as a "please keep going, your work is very much needed and awesome. PS: love". [Donate](https://liberapay.com/WikidataJS)
 
 ## See Also
-
-### [wikidata-sdk](https://github.com/maxlath/wikidata-sdk)
-a javascript tool suite to query and work with wikidata data, heavily used by wikidata-cli
-
-### [wikidata-edit](https://www.npmjs.com/package/wikidata-edit)
-Edit Wikidata from NodeJS
-
-### [wikidata-cli](https://www.npmjs.com/package/wikidata-cli)
-The command-line interface to Wikidata
-
-### [wikidata-filter](https://npmjs.com/package/wikidata-filter)
-A command-line tool to filter a Wikidata dump by claim
-
-### [wikidata-taxonomy](https://github.com/nichtich/wikidata-taxonomy)
-Command-line tool to extract taxonomies from Wikidata
-
-### [Other Wikidata external tools](https://www.wikidata.org/wiki/Wikidata:Tools/External_tools)
+* [wikidata-sdk](https://github.com/maxlath/wikidata-sdk): a javascript tool suite to query and work with wikidata data, heavily used by wikidata-cli
+* [wikidata-edit](https://www.npmjs.com/package/wikidata-edit): Edit Wikidata from NodeJS
+* [wikidata-cli](https://www.npmjs.com/package/wikidata-cli): The command-line interface to Wikidata
+* [wikidata-filter](https://npmjs.com/package/wikidata-filter): A command-line tool to filter a Wikidata dump by claim
+* [wikidata-taxonomy](https://github.com/nichtich/wikidata-taxonomy): Command-line tool to extract taxonomies from Wikidata
+* [Other Wikidata external tools](https://www.wikidata.org/wiki/Wikidata:Tools/External_tools):
 
 ## You may also like
 
