@@ -1,21 +1,12 @@
+{ simplify } = require 'wikidata-sdk'
+
 module.exports =
   buildDocUrl: (base, type, entity)->
     { id } = entity
     return "#{base}/#{type}/#{id}"
 
   formatEntity: (entity)->
-    entity.labels = formatSingleValue entity.labels
-    entity.descriptions = formatSingleValue entity.descriptions
-    entity.aliases = formatMultiValue entity.aliases
-
+    entity.labels = simplify.labels entity.labels
+    entity.aliases = simplify.aliases entity.aliases
+    entity.descriptions = simplify.descriptions entity.descriptions
     return entity
-
-formatSingleValue = (values)->
-  for lang, value of values
-    values[lang] = value.value
-  return values
-
-formatMultiValue = (values)->
-  for lang, collection of values
-    values[lang] = collection.map (v)-> v.value
-  return values

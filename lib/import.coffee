@@ -3,12 +3,13 @@
 split = require 'split'
 require 'colors'
 
-unless /^\w+$/.test type
+unless type? and /^\w+$/.test type
   throw new Error "invalid data type: #{type}"
 
 { removeTrailingComma, isJsonLine, logCount, error } = require './helpers'
-putToElasticSearch = require('./put_to_elasticsearch')(type)
+bulkPost = require './bulk_post_to_elasticsearch'
 
+entitiesBatch = []
 onLine = (line)->
   # ignore empty line
   if line is '' then return
@@ -20,10 +21,20 @@ onLine = (line)->
     console.log 'invalid line'.red, line
     return
 
-  putToElasticSearch line
+  entity = JSON.parse line
+  entitiesBatch.push entity
+  # if entitiesBatch.length > 1000 then putBatch()
+  if entitiesBatch.length > 10 then putBatch()
   logCount()
 
+putBatch = ->
+  console.log 'putting batch!'.green, entitiesBatch.length
+  [ currentBatch, entitiesBatch ] = [ entitiesBatch, [] ]
+  bulkPost type, currentBatch
+
 done = ->
+  # last batch
+  bulkPost type, entitiesBatch
   console.log 'stream done!'.green
   # DONT EXIT THE PROCESS YET
   # as requests should still be ongoing

@@ -3,10 +3,11 @@
 # Pass the path of a results json file, supposedly made of an array of ids:
 # all those ids documents will be deleted
 [ resultPath ] = process.argv.slice(2)
+{ host:elasticHost, index } = require('config').elastic
 
 resolvePath = require './lib/resolve_path'
 ids = require resolvePath(resultPath)
-request = require 'request'
+got = require 'got'
 require 'colors'
 
 type = resultPath.split('/').slice(-1)[0].split('.')[0]
@@ -14,30 +15,28 @@ console.log 'type'.blue, type
 total = ids.length
 console.log 'ids'.blue, total
 
-
 # TODO: use the Bulk API
 # https://www.elastic.co/guide/en/elasticsearch/reference/2.3/docs-bulk.html
-deleteOne = ->
-  id = ids.shift()
-  options =
-    method: 'DELETE'
-    url: "http://localhost:9200/wikidata/#{type}/#{id}"
+deleteNextBulk = ->
+  idsBatch = ids.splice(0, 1000)
 
-  request options, (err, res)->
-    if err
-      # if 404, continue as the document might just
-      # have been manully deleted earlier
-      if err.statusCode is 404
-        console.log '404'.yello, id
-        setTimeout deleteOne, 200
-      else
-        console.log 'err'.red, err
-
+  got.delete "http://localhost:9200/_bulk",
+    body: idsBatch.map(metaDataLine).join '\n'
+  .then ->
+    console.log 'deleted'.green, idsBatch, "remaining: #{ids.length}".grey
+    if ids.length > 0 then setTimeout deleteNextBulk, 200
+  .catch (err)->
+    # if 404, continue as the document might just
+    # have been manully deleted earlier
+    if err.statusCode is 404
+      console.log '404'.yello, idsBatch[0..100], '[...]'
+      setTimeout deleteNextBulk, 200
     else
-      console.log 'deleted'.green, id, "remaining: #{ids.length}".grey
-      if ids.length > 0
-        setTimeout deleteOne, 200
+      console.log 'err'.red, err
+
+metaDataLine = (id)->
+  "{\"delete\":{\"_index\":\"#{index}\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}"
 
 # let 5 seconds to kill the process if something is wrong
 console.log 'starting in 5 seconds...'.grey
-setTimeout deleteOne, 5000
+setTimeout deleteNextBulk, 5000

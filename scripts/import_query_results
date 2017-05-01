@@ -2,24 +2,25 @@
 require 'colors'
 resultsFolder = './queries/results'
 fs = require 'fs'
-breq = require 'bluereq'
 wdk = require 'wikidata-sdk'
 
 types = require('./lib/types_parser')(resultsFolder, 'json')
 callOneByOne = require './lib/call_one_by_one'
+fetchAndPutEntitiesFromIds = require '../lib/fetch_and_put_entities_from_ids'
 
-importEntities = (type, callback)->
+importEntities = (type)->
   # Beware of the path leading dot: require works from __dirname
   # not from process.cwd()
   ids = require ".#{resultsFolder}/#{type}.json"
     # filtering-out properties and blank nodes (type: bnode)
-    .filter (id)-> wdk.isWikidataEntityId id
+    .filter wdk.isItemId
 
-  breq.post 'http://localhost:3000',
-    type: type
-    ids: ids
-  .then (res)-> callback null, res.body
-  .catch (err)-> callback err, null
-
+  return fetchAndPutEntitiesFromIds type, ids
+  .then -> console.log 'done'.green, type
+  .catch (err)->
+    console.error 'failed'.red, type, err
+    throw err
 
 callOneByOne types, 'import', importEntities
+.then -> console.log 'imports done'.green, types
+.catch (err)-> console.error 'imports err'.red, types, err
