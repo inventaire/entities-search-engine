@@ -48,7 +48,7 @@ module.exports = (type, ids)->
       return bulkPost type, compact(values(entities))
     .then putNextBatch
     .catch (err)->
-      console.error 'putNextBatch err'.red, err, error.response.body
+      console.error 'putNextBatch err'.red, err, err.response.body
       throw err
 
   return putNextBatch()
