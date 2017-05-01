@@ -38,8 +38,8 @@ see [setup](./SETUP.md) to install dependencies:
 
 #### add
 2 ways to import entities data into your ElasticSearch instance
-* [Wikidata filtered-dump import](./wikidata_filtered_dump_import.md)
-* [Wikidata per-entity import](./wikidata_per_entity_import.md)
+* [Wikidata filtered-dump import](./docs/wikidata_filtered_dump_import.md)
+* [Wikidata per-entity import](./docs/wikidata_per_entity_import.md)
 
 #### remove
 To un-index entities that were mistakenly added, pass the path of a results json file, supposedly made of an array of ids. All those ids' documents will be deleted
