@@ -37,7 +37,7 @@ module.exports = (type, ids)->
 
     console.log 'putting next batch'.green, url
 
-    got.get url
+    got.get url, { json: true }
     .then (res)->
       { entities } = res.body
 
