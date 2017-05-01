@@ -11,9 +11,9 @@ Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inv
 
 - [Setup](#setup)
   - [Dependencies](#dependencies)
-  - [Data imports](#data-imports)
-    - [add](#add)
-    - [remove](#remove)
+- [Data imports](#data-imports)
+  - [add](#add)
+  - [remove](#remove)
 - [Query ElasticSearch](#query-elasticsearch)
 - [data.inventaire.io](#datainventaireio)
 - [References](#references)
@@ -34,14 +34,14 @@ see [setup](./SETUP.md) to install dependencies:
 * [Let's Encrypt](https://en.wikipedia.org/wiki/Let's_Encrypt)
 * already installed in any good **nix* system: curl, gzip
 
-### Data imports
+## Data imports
 
-#### add
+### add
 2 ways to import entities data into your ElasticSearch instance
 * [Wikidata filtered-dump import](./docs/wikidata_filtered_dump_import.md)
 * [Wikidata per-entity import](./docs/wikidata_per_entity_import.md)
 
-#### remove
+### remove
 To un-index entities that were mistakenly added, pass the path of a results json file, supposedly made of an array of ids. All those ids' documents will be deleted
 ```sh
 npm run delete-from-results ./queries/results/mistakenly_added_ids.json
