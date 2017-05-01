@@ -1,4 +1,4 @@
-# #!/usr/bin/env sh
+#!/usr/bin/env sh
 # Simply specifying where to find the coffee executable
 # without relying on a global installed coffee-script
 # Then passing all the arguments
