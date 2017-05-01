@@ -17,6 +17,7 @@ module.exports = (req, res)->
 
   unless type in CONFIG.types
     res.status(400).send { unknown_type: type }
+    console.log "#{type} not in types whitelist:\n".yellow, CONFIG.types
     return
 
 
