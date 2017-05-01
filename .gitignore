@@ -2,3 +2,5 @@ queries/results
 node_modules
 config/local.coffee
 server/logs
+dumps
+
