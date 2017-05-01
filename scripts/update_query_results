@@ -15,7 +15,8 @@ archive = (type)->
     { mtime } = fs.statSync file
     timestamp = mtime.toISOString().replace(':', '-').split(':')[0]
     renamed = file.replace '.json', ".#{timestamp}.json"
-    return "[ -e #{file} ] && mv #{file} #{renamed}"
+    # Ignore ENOENT errors
+    return "[ -e #{file} ] && mv #{file} #{renamed} 2> /dev/null"
   catch err
     console.log err.message
     return "echo 'no file archived'"
