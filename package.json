@@ -9,10 +9,11 @@
     "daemon": "./scripts/forever start",
     "restart": "./scripts/forever restart",
     "stop": "./scripts/forever stop",
-    "update-query-results": "./node_modules/coffee-script/bin/coffee ./scripts/update_query_results",
-    "import-query-results": "./node_modules/coffee-script/bin/coffee ./scripts/import_query_results",
+    "update-query-results": "coffee ./scripts/update_query_results",
+    "import-query-results": "coffee ./scripts/import_query_results",
     "update-and-import-all": "npm run update-query-results all && npm run import-query-results all",
-    "delete-from-results": "./scripts/delete_from_results"
+    "delete-from-results": "./scripts/delete_from_results",
+    "update-toc": "doctoc README.md"
   },
   "author": "maxlath",
   "license": "MIT",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "coffee-script": "^1.10.0",
+    "doctoc": "^1.2.0",
     "supervisor": "^0.12.0"
   }
 }
