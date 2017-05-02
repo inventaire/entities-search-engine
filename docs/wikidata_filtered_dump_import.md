@@ -16,7 +16,8 @@ What happens here:
 
 :warning: *you are about to download a whole Wikidata dump that is something like 7GB compressed. Only the filtered output should be written to your disk though.*
 
-#### import multiple Wikidata subsets into ElasticSearch
+### Import multiple Wikidata subsets into ElasticSearch
+
 The same as the above but saving the Wikdiata dump to disk to avoid downloading 7GB multiple times when one time would be enough. This time, you do need the 7GB disk space, plus the space that will take your subsets in ElasticSearch
 ```sh
 alias wdfilter=./node_modules/wikidata-filter/bin/wikidata-filter

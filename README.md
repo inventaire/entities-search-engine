@@ -39,6 +39,7 @@ see [setup](./SETUP.md) to install dependencies:
 ### add
 2 ways to import entities data into your ElasticSearch instance
 * [Wikidata filtered-dump import](./docs/wikidata_filtered_dump_import.md)
+* [Wikidata batch import using SPARQL queries results](./docs/wikidata_batch_import_using_sparql_queries_results.md)
 * [Wikidata per-entity import](./docs/wikidata_per_entity_import.md)
 
 ### remove
