@@ -8,7 +8,9 @@ got = require 'got'
 module.exports = (type, entities)->
   batch = []
   entities.forEach appendEntity(type, batch)
-  got.post "#{elasticHost}/_bulk", { body: batch.join('\n') }
+  # It is required to end by a newline break
+  body = batch.join('\n') + '\n'
+  got.post "#{elasticHost}/_bulk", { body }
 
 # see: https://www.elastic.co/guide/en/elasticsearch/guide/current/bulk.html
 appendEntity = (type, batch)-> (entity)->
