@@ -4,6 +4,8 @@ compact = require 'lodash.compact'
 got = require 'got'
 bulkPost = require './bulk_post_to_elasticsearch'
 wdk = require 'wikidata-sdk'
+# omitting type, claims, sitelinks
+props = [ 'labels', 'aliases', 'descriptions' ]
 
 module.exports = (type, ids)->
   console.log 'type'.cyan, type
@@ -20,12 +22,12 @@ module.exports = (type, ids)->
   if typeof ids is 'string' then ids = ids.split '|'
 
   # generate urls for batches of 50 entities
-  urls = wdk.getManyEntities
-    ids: ids
-    # omitting type, claims, sitelinks
-    props: ['labels', 'aliases', 'descriptions']
+  urls = wdk.getManyEntities { ids, props }
 
-  putNextBatch = ->
+  return PutNextBatch(type, urls)()
+
+PutNextBatch = (type, urls)->
+  return putNextBatch = ->
     url = urls.shift()
     unless url?
       console.log 'done putting batches'.green
@@ -34,17 +36,20 @@ module.exports = (type, ids)->
     console.log 'putting next batch'.green, url
 
     got.get url, { json: true }
-    .then (res)->
-      { entities } = res.body
-
-      # logging possible empty values that will be filtered-out by 'compact'
-      for k, v of entities
-        unless v? then console.warn 'missing value: ignored', k
-
-      return bulkPost type, compact(values(entities))
+    .then postEntities(type)
+    # Will call itself until there is no more urls to fetch
     .then putNextBatch
-    .catch (err)->
-      console.error 'putNextBatch err'.red, err, err.response.body
-      throw err
+    .catch logAndRethrow
 
-  return putNextBatch()
+postEntities = (type)-> (res)->
+  { entities } = res.body
+
+  # logging possible empty values that will be filtered-out by 'compact'
+  for k, v of entities
+    unless v? then console.warn 'missing value: ignored', k
+
+  return bulkPost type, compact(values(entities))
+
+logAndRethrow = (err)->
+  console.error 'putNextBatch err'.red, err, err.response.body
+  throw err
