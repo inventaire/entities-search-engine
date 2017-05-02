@@ -1,7 +1,3 @@
-# POST index, ids
-# => fetch entities
-# => PUT on ES
-
 CONFIG = require 'config'
 values = require 'lodash.values'
 compact = require 'lodash.compact'

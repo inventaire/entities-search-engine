@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 sudo apt-get install nginx
 
 # Copy instead of simply linking as some system fail to find the symbolic link target

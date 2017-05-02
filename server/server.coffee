@@ -1,13 +1,18 @@
 #!/usr/bin/env coffee
 
-app = require('express')()
-# force colors
+{ port } = require 'config'
+
+# Use Bluebird promises instead of native ones
+global.Promise = require 'bluebird'
+
+# Force colors
 require('colors').enabled = true
 
+app = require('express')()
 bodyParser = require 'body-parser'
 app.use bodyParser.json()
 app.use bodyParser.urlencoded({ extended: true })
 
 app.post '/', require('./post')
 
-app.listen 3000, -> console.log 'server listening on port 3000'.blue
+app.listen port, -> console.log "server listening on port #{port}".blue

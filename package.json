@@ -5,10 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "./scripts/postinstall",
-    "start": "supervisor -w . server/server.coffee",
-    "daemon": "./scripts/forever start",
-    "restart": "./scripts/forever restart",
-    "stop": "./scripts/forever stop",
+    "start": "coffee server/server.coffee",
+    "watch": "supervisor -w . server/server.coffee",
+    "add-to-systemd": "./scripts/add_to_systemd",
     "update-query-results": "coffee ./scripts/update_query_results",
     "import-query-results": "coffee ./scripts/import_query_results",
     "update-and-import-all": "npm run update-query-results all && npm run import-query-results all",
@@ -19,7 +18,8 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "bluebird": "^3.3.5",
+    "add-to-systemd": "^1.2.0",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.15.1",
     "coffee-script": "^1.10.0",
     "colors": "^1.1.2",

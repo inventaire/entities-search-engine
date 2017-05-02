@@ -1,2 +1,0 @@
-#!/usr/bin/env sh
-forever -c node_modules/coffee-script/bin/coffee -a -o server/logs/logs -e server/logs/errors $1 server/server.coffee
