@@ -7,17 +7,17 @@ wdk = require 'wikidata-sdk'
 # omitting type, claims, sitelinks
 props = [ 'labels', 'aliases', 'descriptions' ]
 whitelist = CONFIG.types
+_ = require './utils'
 
 module.exports = (type, ids)->
-  console.log 'type'.cyan, type
-  console.log 'ids'.cyan, ids[0..10], '[...]'.grey
-
   unless type in whitelist
-    console.log "#{type} not in types whitelist:\n".yellow, CONFIG.types
+    _.warn "#{type} not in types whitelist"
     err = new Error 'non whitelisted type'
     err.statusCode = 400
     err.context = [ { type, whitelist } ]
     return Promise.reject err
+
+  _.log ids, "#{type} ids"
 
   # filtering-out properties and blank nodes (type: bnode)
   ids = ids.filter wdk.isItemId
@@ -33,10 +33,10 @@ PutNextBatch = (type, urls)->
   return putNextBatch = ->
     url = urls.shift()
     unless url?
-      console.log "done putting #{type} batches".green
+      _.success "done putting #{type} batches"
       return
 
-    console.log "putting next #{type} batch".green, url
+    _.success url, "putting next #{type} batch"
 
     got.get url, { json: true }
     .then postEntities(type)
@@ -49,10 +49,11 @@ postEntities = (type)-> (res)->
 
   # logging possible empty values that will be filtered-out by 'compact'
   for k, v of entities
-    unless v? then console.warn 'missing value: ignored', k
+    unless v? then _.warn k, 'missing value: ignored'
 
   return bulkPost type, compact(values(entities))
 
 logAndRethrow = (err)->
-  console.error 'putNextBatch err'.red, err, err.response.body
+  _.error err, 'putNextBatch err'
+  _.error err.response.body, 'putNextBatch err response body'
   throw err

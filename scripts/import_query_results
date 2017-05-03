@@ -1,8 +1,8 @@
 #!/usr/bin/env coffee
-require 'colors'
 resultsFolder = './queries/results'
 fs = require 'fs'
 wdk = require 'wikidata-sdk'
+_ = require '../lib/utils'
 
 types = require('./lib/types_parser')(resultsFolder, 'json')
 callOneByOne = require './lib/call_one_by_one'
@@ -16,11 +16,11 @@ importEntities = (type)->
     .filter wdk.isItemId
 
   return fetchAndPutEntitiesFromIds type, ids
-  .then -> console.log 'done'.green, type
+  .then -> _.success type, 'done'
   .catch (err)->
-    console.error 'failed'.red, type, err
+    _.error [ err, type ], 'failed'
     throw err
 
 callOneByOne types, 'import', importEntities
-.then -> console.log 'imports done'.green, types
-.catch (err)-> console.error 'imports err'.red, types, err
+.then -> _.success types, 'imports done'
+.catch (err)-> _.error [ err, types ], 'imports err'

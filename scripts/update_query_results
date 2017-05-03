@@ -1,11 +1,11 @@
 #!/usr/bin/env coffee
-require 'colors'
 { exec } = require 'child_process'
 callOneByOne = require './lib/call_one_by_one'
 wdsparql = "./node_modules/wikidata-cli/bin/wdsparql -s"
 sparqlFolder = './queries/sparql'
 types = require('./lib/types_parser')(sparqlFolder, 'rq')
 fs = require 'fs'
+_ = require '../lib/utils'
 
 filePath = (type)-> "./queries/results/#{type}.json"
 
@@ -27,12 +27,12 @@ update = (type)->
 makeQuery = (type)->
   return new Promise (resolve, reject)->
     updateCmd = "#{update(type)}"
-    console.log 'running'.blue, updateCmd
+    _.info updateCmd, 'running'
     cmd = "#{archive(type)} ; #{updateCmd}"
     exec cmd, (err, res)->
       if err then reject err
       else resolve res
 
 callOneByOne types, 'query update', makeQuery
-.then -> console.log 'query updates done'.green, types
-.catch (err)-> console.error 'query updates err'.red, types, err
+.then -> _.success types, 'query updates done'
+.catch (err)-> _.error [ types, err ], 'query updates err'

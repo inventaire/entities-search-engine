@@ -3,7 +3,6 @@
 got = require 'got'
 
 { buildDocUrl, formatEntity } = require './entity'
-{ error } = require './helpers'
 
 module.exports = (type, entities)->
   batch = []

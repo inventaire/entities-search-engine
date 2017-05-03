@@ -3,11 +3,11 @@
 # => index entities in ElasticSearch Wikidata index
 
 fetchAndPutEntitiesFromIds = require '../lib/fetch_and_put_entities_from_ids'
+_ = require '../lib/utils'
 
 module.exports = (req, res)->
   idsPerType = req.body
-  console.log('body', idsPerType)
-  console.log 'idsPerType'.blue, idsPerType
+  _.log idsPerType, 'idsPerType'
 
   getTypesPromises(idsPerType)
   .then -> res.json { ok: true }
@@ -31,6 +31,6 @@ passNonWhitelisted = (err)->
 sendError = (res)-> (err)->
   statusCode = err.statusCode or 500
   color = if statusCode < 500 then 'yellow' else 'red'
-  console.log 'post err'[color], err
+  _.log err, 'post err', color
   { message, context } = err
   res.status(statusCode).send { status_verbose: message, context }

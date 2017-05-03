@@ -8,35 +8,37 @@
 resolvePath = require './lib/resolve_path'
 ids = require resolvePath(resultPath)
 got = require 'got'
-require 'colors'
+_ = require '../lib/utils'
 
 type = resultPath.split('/').slice(-1)[0].split('.')[0]
-console.log 'type'.blue, type
+_.info type, 'type'
 total = ids.length
-console.log 'ids'.blue, total
+_.info total, 'ids'
 
 # TODO: use the Bulk API
 # https://www.elastic.co/guide/en/elasticsearch/reference/2.3/docs-bulk.html
 deleteNextBulk = ->
   idsBatch = ids.splice(0, 1000)
 
-  got.delete "http://localhost:9200/_bulk",
-    body: idsBatch.map(metaDataLine).join '\n'
+  body = idsBatch.map(metaDataLine).join '\n'
+
+  got.delete "http://localhost:9200/_bulk", { body }
   .then ->
-    console.log 'deleted'.green, idsBatch, "remaining: #{ids.length}".grey
+    _.success idsBatch, 'deleted'
+    _.info ids.length, 'remaining'
     if ids.length > 0 then setTimeout deleteNextBulk, 200
   .catch (err)->
     # if 404, continue as the document might just
     # have been manully deleted earlier
     if err.statusCode is 404
-      console.log '404'.yello, idsBatch[0..100], '[...]'
+      _.warn idsBatch, '404'
       setTimeout deleteNextBulk, 200
     else
-      console.log 'err'.red, err
+      _.error err, 'err'
 
 metaDataLine = (id)->
   "{\"delete\":{\"_index\":\"#{index}\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}"
 
 # let 5 seconds to kill the process if something is wrong
-console.log 'starting in 5 seconds...'.grey
+_.info 'starting in 5 seconds...'
 setTimeout deleteNextBulk, 5000
