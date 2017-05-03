@@ -7,7 +7,6 @@ _ = require '../lib/utils'
 
 module.exports = (req, res)->
   idsPerType = req.body
-  _.log idsPerType, 'idsPerType'
 
   getTypesPromises(idsPerType)
   .then -> res.json { ok: true }
