@@ -11,6 +11,7 @@ Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inv
 
 - [Setup](#setup)
   - [Dependencies](#dependencies)
+  - [Start server](#start-server)
 - [Data imports](#data-imports)
   - [add](#add)
   - [remove](#remove)
@@ -33,6 +34,9 @@ see [setup](./SETUP.md) to install dependencies:
 * [Nginx](https://en.wikipedia.org/wiki/Nginx)
 * [Let's Encrypt](https://en.wikipedia.org/wiki/Let's_Encrypt)
 * already installed in any good **nix* system: curl, gzip
+
+### Start server
+see *[Wikidata per-entity import](./docs/wikidata_per_entity_import.md)*
 
 ## Data imports
 
