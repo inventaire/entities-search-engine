@@ -4,23 +4,26 @@ Start the server
 ```sh
 npm start
 ```
-Or make it run as a daemon if you want to keep it running
-(requires [`forever`](npmjs.com/package/forever) to be installed globally)
+Or, if you're on Linux, you can make it run as a [systemd](https://en.wikipedia.org/wiki/Systemd) process
 ```sh
-npm run daemon
+npm run add-to-systemd
+sudo systemctl restart wsse
 ```
 
-Then `POST` the `ids` of entities you want to import, specifying to which `type`  it should be added:
+Then `POST` the `ids` of entities you want to import, sorted per `type`:
+
 * with curl
 ```sh
-curl -XPOST http://localhost:3000 -d 'type=genres&ids=Q112983|Q185598'
+curl -H "Content-Type: application/json" -XPOST http://localhost:3213 -d '{"humans":["Q421512"], "series":["Q3656893"]}'
 ```
-* with [request](https://github.com/request/request)
-```javascript
-request.post('http://localhost:3000', {
+
+* with an HTTP lib like [request](https://github.com/request/request)
+```js
+request.post({
+  url: 'http://localhost:3213',
   json: {
-    type: 'genres',
-    ids: ['Q112983', 'Q185598']
+    humans: ['Q421512'],
+    series: ['Q3656893']
   }
 })
 ```

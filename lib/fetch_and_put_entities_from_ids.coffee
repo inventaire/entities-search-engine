@@ -6,15 +6,18 @@ bulkPost = require './bulk_post_to_elasticsearch'
 wdk = require 'wikidata-sdk'
 # omitting type, claims, sitelinks
 props = [ 'labels', 'aliases', 'descriptions' ]
+whitelist = CONFIG.types
 
 module.exports = (type, ids)->
   console.log 'type'.cyan, type
   console.log 'ids'.cyan, ids[0..10], '[...]'.grey
 
-  unless type in CONFIG.types
-    res.status(400).send { unknown_type: type }
+  unless type in whitelist
     console.log "#{type} not in types whitelist:\n".yellow, CONFIG.types
-    return
+    err = new Error 'non whitelisted type'
+    err.statusCode = 400
+    err.context = [ { type, whitelist } ]
+    return Promise.reject err
 
   # filtering-out properties and blank nodes (type: bnode)
   ids = ids.filter wdk.isItemId
@@ -30,10 +33,10 @@ PutNextBatch = (type, urls)->
   return putNextBatch = ->
     url = urls.shift()
     unless url?
-      console.log 'done putting batches'.green
+      console.log "done putting #{type} batches".green
       return
 
-    console.log 'putting next batch'.green, url
+    console.log "putting next #{type} batch".green, url
 
     got.get url, { json: true }
     .then postEntities(type)
