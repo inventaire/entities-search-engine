@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
+set -eu
 
 # env "PATH=$PATH" alows to access add-to-systemd in sudo mode
 sudo env "PATH=$PATH" add-to-systemd \
    --env FORCE_COLOR=true \
    --env PATH="$PATH" \
-   --user $USERNAME \
    wsse "$(which coffee) $(pwd)/server/server.coffee"
