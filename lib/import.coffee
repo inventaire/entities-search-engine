@@ -6,7 +6,7 @@ _ = require './utils'
 unless type? and /^\w+$/.test type
   throw new Error "invalid data type: #{type}"
 
-{ removeTrailingComma, isJsonLine, logCount, error } = require './helpers'
+{ removeTrailingComma, isJsonLine, logCount } = require './helpers'
 bulkPost = require './bulk_post_to_elasticsearch'
 
 entitiesBatch = []
@@ -42,5 +42,5 @@ done = ->
 process.stdin
 .pipe split()
 .on 'data', onLine
-.on 'error', error.bind(null, 'stream error')
+.on 'error', _.Error('stream error')
 .on 'close', done
