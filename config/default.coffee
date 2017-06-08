@@ -5,6 +5,7 @@ module.exports =
     index: 'wikidata'
     urlBase: -> "#{@host}/#{@index}"
   types: [
+    'works'
     'humans'
     'genres'
     'movements'
