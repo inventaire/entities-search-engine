@@ -12,6 +12,8 @@ This setup tragets Ubuntu 16.04
 git clone https://github.com/inventaire/wikidata-subset-search-engine.git
 cd wikidata-subset-search-engine
 npm install
+npm run add-to-systemd
+sudo systemctl start wsse
 ```
 
 #### install elasticsearch
