@@ -24,8 +24,7 @@ onLine = (line)->
 
   entity = formatEntity JSON.parse(line)
   entitiesBatch.push entity
-  # if entitiesBatch.length > 1000 then putBatch()
-  if entitiesBatch.length > 10 then putBatch()
+  if entitiesBatch.length > 500 then putBatch()
   logCount()
 
 putBatch = ->
