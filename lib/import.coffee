@@ -36,8 +36,7 @@ done = ->
   # last batch
   bulkPost type, entitiesBatch
   _.success 'stream done!'
-  # DONT EXIT THE PROCESS YET
-  # as requests should still be ongoing
+  # Do not exit the process yet as requests should still be ongoing
 
 process.stdin
 .pipe split()
