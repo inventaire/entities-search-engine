@@ -4,8 +4,9 @@ compact = require 'lodash.compact'
 got = require 'got'
 bulkPost = require './bulk_post_to_elasticsearch'
 wdk = require 'wikidata-sdk'
-# omitting type, claims, sitelinks
-props = [ 'labels', 'aliases', 'descriptions' ]
+# omitting type, sitelinks
+props = [ 'labels', 'aliases', 'descriptions', 'claims' ]
+formatEntity = require './format_entity'
 whitelist = CONFIG.types
 _ = require './utils'
 
@@ -47,9 +48,10 @@ PutNextBatch = (type, urls)->
 postEntities = (type)-> (res)->
   { entities } = res.body
 
-  # logging possible empty values that will be filtered-out by 'compact'
-  for k, v of entities
-    unless v? then _.warn k, 'missing value: ignored'
+  for id, entity of entities
+    if entity? then formatEntity entity
+    # logging possible empty values that will be filtered-out by 'compact'
+    else _.warn id, 'missing value: ignored'
 
   return bulkPost type, compact(values(entities))
 

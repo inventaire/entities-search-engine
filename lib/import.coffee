@@ -8,6 +8,7 @@ unless type? and /^\w+$/.test type
 
 { removeTrailingComma, isJsonLine, logCount } = require './helpers'
 bulkPost = require './bulk_post_to_elasticsearch'
+formatEntity = require './format_entity'
 
 entitiesBatch = []
 onLine = (line)->
@@ -21,7 +22,7 @@ onLine = (line)->
     _.error line, 'invalid line'
     return
 
-  entity = JSON.parse line
+  entity = formatEntity JSON.parse(line)
   entitiesBatch.push entity
   # if entitiesBatch.length > 1000 then putBatch()
   if entitiesBatch.length > 10 then putBatch()
