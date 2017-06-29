@@ -7,8 +7,10 @@ wdk = require 'wikidata-sdk'
 # omitting type, sitelinks
 props = [ 'labels', 'aliases', 'descriptions', 'claims' ]
 formatEntity = require './format_entity'
+addEntitiesImages = require './add_entities_images'
 whitelist = CONFIG.types
 _ = require './utils'
+haveSpecialImagesGetter = [ 'works', 'series' ]
 
 module.exports = (type, ids)->
   unless type in whitelist
@@ -40,20 +42,29 @@ PutNextBatch = (type, urls)->
     _.success url, "putting next #{type} batch"
 
     got.get url, { json: true }
-    .then postEntities(type)
+    .then removeMissingEntities
+    .then addImages(type)
+    .then formatEntities
+    .then bulkPost.bind(null, type)
     # Will call itself until there is no more urls to fetch
     .then putNextBatch
     .catch logAndRethrow
 
-postEntities = (type)-> (res)->
+removeMissingEntities = (res)->
   { entities } = res.body
-
   for id, entity of entities
-    if entity? then formatEntity entity
-    # logging possible empty values that will be filtered-out by 'compact'
-    else _.warn id, 'missing value: ignored'
+    unless entity?
+      _.warn id, 'missing value: ignored'
+      delete entities[id]
 
-  return bulkPost type, compact(values(entities))
+  return entities
+
+addImages = (type)-> (entities)->
+  # Images will simply be taken from claims during formatting
+  if type not in haveSpecialImagesGetter then return entities
+  else return addEntitiesImages entities
+
+formatEntities = (entities)-> values(entities).map formatEntity
 
 logAndRethrow = (err)->
   _.error err, 'putNextBatch err'

@@ -12,3 +12,5 @@ module.exports =
     'publishers'
     'series'
   ]
+  inventaire:
+    host: 'https://inventaire.io'
