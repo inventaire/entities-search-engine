@@ -1,16 +1,14 @@
 CONFIG = require 'config'
 values = require 'lodash.values'
 compact = require 'lodash.compact'
-got = require 'got'
 bulkPost = require './bulk_post_to_elasticsearch'
 wdk = require 'wikidata-sdk'
 # omitting type, sitelinks
 props = [ 'labels', 'aliases', 'descriptions', 'claims' ]
-formatEntity = require './format_entity'
-addEntitiesImages = require './add_entities_images'
 whitelist = CONFIG.types
 _ = require './utils'
-haveSpecialImagesGetter = [ 'works', 'series' ]
+formatEntities = require './format_entities'
+breq = require 'bluereq'
 
 module.exports = (type, ids)->
   unless type in whitelist
@@ -41,10 +39,9 @@ PutNextBatch = (type, urls)->
 
     _.success url, "putting next #{type} batch"
 
-    got.get url, { json: true }
+    breq.get url
     .then removeMissingEntities
-    .then addImages(type)
-    .then formatEntities
+    .then formatEntities(types)
     .then bulkPost.bind(null, type)
     # Will call itself until there is no more urls to fetch
     .then putNextBatch
@@ -59,14 +56,7 @@ removeMissingEntities = (res)->
 
   return entities
 
-addImages = (type)-> (entities)->
-  # Images will simply be taken from claims during formatting
-  if type not in haveSpecialImagesGetter then return entities
-  else return addEntitiesImages entities
-
-formatEntities = (entities)-> values(entities).map formatEntity
-
 logAndRethrow = (err)->
   _.error err, 'putNextBatch err'
-  _.error err.response.body, 'putNextBatch err response body'
+  _.error err.body, 'putNextBatch err body'
   throw err

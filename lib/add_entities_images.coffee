@@ -1,15 +1,20 @@
-got = require 'got'
+breq = require 'bluereq'
 values = require 'lodash.values'
 { host:invHost } = require('config').inventaire
+_ = require './utils'
 
 module.exports = (entities)->
-  uris = values(entities).map getWdEntityUri
+  if entities instanceof Array
+    uris = entities.map getEntityUri
+    entities = indexById entities
+  else
+    uris = values(entities).map getEntityUri
 
   url = "#{invHost}/api/entities?action=images&uris=#{uris.join('|')}"
 
   console.log('url', url)
 
-  got.get url, { json: true }
+  breq.get url
   .then (res)->
     { images } = res.body
     for uri, entityImages of images
@@ -18,4 +23,15 @@ module.exports = (entities)->
 
     return entities
 
-getWdEntityUri = (entity)-> 'wd:' + entity.id
+getEntityUri = (entity)->
+  # At this point Wikidata entities have entity.id defined
+  # while inventaire entities have entity._id
+  if entity.id? then 'wd:' + entity.id
+  else 'inv:' + entity._id
+
+indexById = (entities)->
+  index = {}
+  entities.forEach (entity)->
+    id = entity.id or entity._id
+    index[id] = entity
+  return index

@@ -7,7 +7,7 @@
 
 resolvePath = require './lib/resolve_path'
 ids = require resolvePath(resultPath)
-got = require 'got'
+breq = require 'bluereq'
 _ = require '../lib/utils'
 
 type = resultPath.split('/').slice(-1)[0].split('.')[0]
@@ -22,7 +22,7 @@ deleteNextBulk = ->
 
   body = idsBatch.map(metaDataLine).join '\n'
 
-  got.delete "http://localhost:9200/_bulk", { body }
+  breq.post "http://localhost:9200/_bulk", body
   .then ->
     _.success idsBatch, 'deleted'
     _.info ids.length, 'remaining'

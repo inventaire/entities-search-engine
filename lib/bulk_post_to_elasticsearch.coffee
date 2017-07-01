@@ -1,20 +1,18 @@
-{ host:elasticHost, index } = require('config').elastic
+{ host:elasticHost } = require('config').elastic
 
-got = require 'got'
+breq = require 'bluereq'
 
-{ buildDocUrl, formatEntity } = require './entity'
-
-module.exports = (type, entities)->
+module.exports = (index, type, entities)->
   batch = []
-  entities.forEach appendEntity(type, batch)
+  entities.forEach appendEntity(index, type, batch)
   # It is required to end by a newline break
   body = batch.join('\n') + '\n'
-  got.post "#{elasticHost}/_bulk", { body }
+  breq.post "#{elasticHost}/_bulk", body
 
 # see: https://www.elastic.co/guide/en/elasticsearch/guide/current/bulk.html
-appendEntity = (type, batch)-> (entity)->
-  batch.push metaDataLine(type, entity.id)
-  batch.push JSON.stringify(formatEntity(entity))
+appendEntity = (index, type, batch)-> (entity)->
+  batch.push metaDataLine(index, type, entity.id)
+  batch.push JSON.stringify(entity)
 
-metaDataLine = (type, id)->
+metaDataLine = (index, type, id)->
   "{\"index\":{\"_index\":\"#{index}\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}"
