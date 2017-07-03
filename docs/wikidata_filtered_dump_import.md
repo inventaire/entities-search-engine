@@ -25,9 +25,9 @@ alias import_to_elastic=./bin/import_to_elasticsearch
 
 curl -s https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz > wikidata-dump.json.gz
 
-cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q5 --omit type,sitelinks | import_to_elastic humans
+cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q5 --omit type,sitelinks | import_to_elastic wikidata humans
 # => will be available at http://localhost:9200/wikidata/humans
 
-cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q571 --omit type,sitelinks | import_to_elastic books
+cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q571 --omit type,sitelinks | import_to_elastic wikidata books
 # => will be available at http://localhost:9200/wikidata/books
 ```
