@@ -28,8 +28,8 @@ entitiesBatch = []
 lineCount = 0
 onLine = (line)->
   lineCount++
-  # ignore empty line
-  if line is '' then return
+  # ignore empty lines
+  if line is '' or line is '[' or line is ']' then return
 
   line = removeTrailingComma line
 
