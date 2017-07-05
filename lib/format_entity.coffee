@@ -28,4 +28,4 @@ module.exports = (entity)->
 getImagesSync = (claims, needSimplification)->
   imageClaims = claims.P18 or []
   if needSimplification then imageClaims = simplifyPropertyClaims imageClaims
-  return { claims: claimsImages }
+  return { claims: imageClaims }

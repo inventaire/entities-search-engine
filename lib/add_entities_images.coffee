@@ -19,7 +19,10 @@ module.exports = (entities)->
     { images } = res.body
     for uri, entityImages of images
       id = uri.split(':')[1]
-      entities[id].images = entityImages
+      # Working around the difference between Wikidata that returns entities
+      # indexed by Wikidata id and Inventaire that index by URIs
+      entity = entities[id] or entities[uri]
+      entity.images = entityImages
 
     return entities
 

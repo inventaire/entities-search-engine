@@ -9,8 +9,9 @@ whitelist = CONFIG.types
 _ = require './utils'
 formatEntities = require './format_entities'
 breq = require 'bluereq'
+{ host:invHost } = require('config').inventaire
 
-module.exports = (type, ids)->
+module.exports = (type, uris)->
   unless type in whitelist
     _.warn "#{type} not in types whitelist"
     err = new Error 'non whitelisted type'
@@ -18,19 +19,23 @@ module.exports = (type, ids)->
     err.context = [ { type, whitelist } ]
     return Promise.reject err
 
-  _.log ids, "#{type} ids"
+  _.log uris, "#{type} uris"
 
-  # filtering-out properties and blank nodes (type: bnode)
-  ids = ids.filter wdk.isItemId
+  { wdIds, invUris } = uris.reduce spreadIdsByDomain, { wdIds: [], invUris: [] }
 
-  if typeof ids is 'string' then ids = ids.split '|'
+  promises = []
+  if wdIds.length > 0
+    # generate urls for batches of 50 entities
+    wdUrls = wdk.getManyEntities { ids: wdIds, props }
+    promises.push PutNextBatch('wikidata', type, wdUrls)()
 
-  # generate urls for batches of 50 entities
-  urls = wdk.getManyEntities { ids, props }
+  if invUris.length > 0
+    invUrl = getInvEntities invUris
+    promises.push PutNextBatch('inventaire', type, [ invUrl ])()
 
-  return PutNextBatch(type, urls)()
+  return Promise.all promises
 
-PutNextBatch = (type, urls)->
+PutNextBatch = (index, type, urls)->
   return putNextBatch = ->
     url = urls.shift()
     unless url?
@@ -41,8 +46,8 @@ PutNextBatch = (type, urls)->
 
     breq.get url
     .then removeMissingEntities
-    .then formatEntities(types)
-    .then bulkPost.bind(null, type)
+    .then formatEntities(type)
+    .then bulkPost.bind(null, index, type)
     # Will call itself until there is no more urls to fetch
     .then putNextBatch
     .catch logAndRethrow
@@ -60,3 +65,16 @@ logAndRethrow = (err)->
   _.error err, 'putNextBatch err'
   _.error err.body, 'putNextBatch err body'
   throw err
+
+spreadIdsByDomain = (data, uri)->
+  [ prefix, id ] = uri.split ':'
+  if prefix is 'wd'
+    # filtering-out properties and blank nodes (type: bnode)
+    unless wdk.isItemId then return data
+    data.wdIds.push id
+  else
+    data.invUris.push uri
+  return data
+
+getInvEntities = (uris)->
+  "#{invHost}/api/entities?action=by-uris&uris=#{uris.join('|')}"
