@@ -8,6 +8,7 @@ props = [ 'labels', 'aliases', 'descriptions', 'claims' ]
 whitelist = CONFIG.types
 _ = require './utils'
 formatEntities = require './format_entities'
+unindex = require './unindex'
 breq = require 'bluereq'
 { host:invHost } = require('config').inventaire
 
@@ -45,26 +46,28 @@ PutNextBatch = (index, type, urls)->
     _.success url, "putting next #{type} batch"
 
     breq.get url
+    .then unindexRedirectedEntities(index, type)
     .then removeMissingEntities
     .then formatEntities(type)
     .then bulkPost.bind(null, index, type)
     # Will call itself until there is no more urls to fetch
     .then putNextBatch
-    .catch logAndRethrow
+    .catch _.ErrorRethrow('putNextBatch')
 
-removeMissingEntities = (res)->
-  { entities } = res.body
+unindexRedirectedEntities = (index, type)-> (res)->
+  { entities, redirects } = res.body
+  if redirects?
+    redirectedUris = Object.keys redirects
+    unindex index, type, redirectedUris
+  return entities
+
+removeMissingEntities = (entities)->
   for id, entity of entities
     unless entity?
       _.warn id, 'missing value: ignored'
       delete entities[id]
 
   return entities
-
-logAndRethrow = (err)->
-  _.error err, 'putNextBatch err'
-  _.error err.body, 'putNextBatch err body'
-  throw err
 
 spreadIdsByDomain = (data, uri)->
   [ prefix, id ] = uri.split ':'
