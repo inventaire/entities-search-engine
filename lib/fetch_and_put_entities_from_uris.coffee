@@ -29,25 +29,25 @@ module.exports = (type, uris)->
   if wdIds.length > 0
     # generate urls for batches of 50 entities
     wdUrls = wdk.getManyEntities { ids: wdIds, props }
-    promises.push PutNextBatch(wdIndex, type, wdUrls)()
+    promises.push PutNextBatch('wd', wdIndex, type, wdUrls)()
 
   if invUris.length > 0
     invUrl = getInvEntities invUris
-    promises.push PutNextBatch(invIndex, type, [ invUrl ])()
+    promises.push PutNextBatch('inv', invIndex, type, [ invUrl ])()
 
   return Promise.all promises
 
-PutNextBatch = (index, type, urls)->
+PutNextBatch = (domain, index, type, urls)->
   return putNextBatch = ->
     url = urls.shift()
     unless url?
       _.success "done putting #{type} batches"
       return
 
-    _.success url, "putting next #{type} batch"
+    _.info url, "preparing next #{type} batch"
 
     breq.get url
-    .then unindexRedirectedEntities(index, type)
+    .then unindexRemovedEntities(domain, index, type)
     .then removeMissingEntities
     .then formatEntities(type)
     .then bulkPost.bind(null, index, type)
@@ -55,11 +55,23 @@ PutNextBatch = (index, type, urls)->
     .then putNextBatch
     .catch _.ErrorRethrow('putNextBatch')
 
-unindexRedirectedEntities = (index, type)-> (res)->
+unindexRemovedEntities = (domain, index, type)-> (res)->
   { entities, redirects } = res.body
+
+  urisToUnindex = []
+
   if redirects?
-    redirectedUris = Object.keys redirects
-    unindex index, type, redirectedUris
+    urisToUnindex = urisToUnindex.concat Object.keys(redirects)
+
+  if domain is 'inv'
+    for uri, entity of entities
+      if entity._meta_type is 'removed:placeholder'
+        urisToUnindex.push uri
+        # Remove the entity from entities to index
+        delete entities[uri]
+
+  unindex index, type, urisToUnindex
+
   return entities
 
 removeMissingEntities = (entities)->
