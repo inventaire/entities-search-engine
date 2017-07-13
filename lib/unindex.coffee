@@ -12,8 +12,7 @@ module.exports = (index, type, uris)->
   batch = uris.map(unprefixify).map buildLine.bind(null, index, type)
 
   breq.post "#{elasticHost}/_bulk", bulk.joinLines(batch)
-  .get 'body'
-  .then _.Log('unindex res')
+  .then bulk.logRes('bulk unindex res')
   .catch _.Error('unindex err')
 
 # If it has a URI prefix (like 'wd' or 'inv'), remove it

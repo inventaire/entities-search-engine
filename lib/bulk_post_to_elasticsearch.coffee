@@ -11,8 +11,7 @@ module.exports = (index, type, entities)->
   entities.forEach appendEntity(index, type, batch)
 
   breq.post "#{elasticHost}/_bulk", bulk.joinLines(batch)
-  .get 'body'
-  .then _.Log('bulk post res')
+  .then bulk.logRes('bulk post res')
   .catch _.Error('bulk post err')
 
 # see: https://www.elastic.co/guide/en/elasticsearch/guide/current/bulk.html
