@@ -2,8 +2,10 @@ module.exports =
   port: 3213
   elastic:
     host: 'http://localhost:9200'
-    index: 'wikidata'
-    urlBase: -> "#{@host}/#{@index}"
+    indexes:
+      wikidata: 'wikidata'
+      # Match CouchDB database names
+      inventaire: 'entities'
   types: [
     'works'
     'humans'

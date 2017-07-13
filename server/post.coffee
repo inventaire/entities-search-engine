@@ -1,6 +1,7 @@
 # POST { type, uris }
 # => fetch entities
-# => index entities in ElasticSearch Wikidata index
+# => index entities in ElasticSearch wikidata or inventaire indexes,
+#    depending on the URI domain
 
 fetchAndPutEntitiesFromUris = require '../lib/fetch_and_put_entities_from_uris'
 _ = require '../lib/utils'

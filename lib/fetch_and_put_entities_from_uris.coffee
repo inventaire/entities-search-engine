@@ -10,7 +10,8 @@ _ = require './utils'
 formatEntities = require './format_entities'
 unindex = require './unindex'
 breq = require 'bluereq'
-{ host:invHost } = require('config').inventaire
+{ host:invHost } = CONFIG.inventaire
+{ wikidata:wdIndex, inventaire:invIndex } = CONFIG.elastic.indexes
 
 module.exports = (type, uris)->
   unless type in whitelist
@@ -28,11 +29,11 @@ module.exports = (type, uris)->
   if wdIds.length > 0
     # generate urls for batches of 50 entities
     wdUrls = wdk.getManyEntities { ids: wdIds, props }
-    promises.push PutNextBatch('wikidata', type, wdUrls)()
+    promises.push PutNextBatch(wdIndex, type, wdUrls)()
 
   if invUris.length > 0
     invUrl = getInvEntities invUris
-    promises.push PutNextBatch('inventaire', type, [ invUrl ])()
+    promises.push PutNextBatch(invIndex, type, [ invUrl ])()
 
   return Promise.all promises
 

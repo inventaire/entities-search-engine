@@ -3,7 +3,8 @@
 # Pass the path of a results json file, supposedly made of an array of ids:
 # all those ids documents will be deleted
 [ resultPath ] = process.argv.slice(2)
-{ host:elasticHost, index } = require('config').elastic
+{ host:elasticHost, indexes } = require('config').elastic
+{ wikidata:index } = indexes
 
 resolvePath = require './lib/resolve_path'
 ids = require resolvePath(resultPath)
