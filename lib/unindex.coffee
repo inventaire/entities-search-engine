@@ -5,10 +5,11 @@ buildLine = bulk.buildLine.bind null, 'delete'
 _ = require './utils'
 
 module.exports = (index, type, uris)->
-  if uris.length is 0 then return
-  batch = uris.map(unprefixify).map buildLine.bind(null, index, type)
+  if uris.length is 0 then return Promise.resolve()
 
-  _.log batch, 'unindex batch'
+  _.log uris, 'unindexed'
+
+  batch = uris.map(unprefixify).map buildLine.bind(null, index, type)
 
   breq.post "#{elasticHost}/_bulk", bulk.joinLines(batch)
   .get 'body'

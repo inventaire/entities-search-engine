@@ -5,6 +5,8 @@ buildLine = bulk.buildLine.bind null, 'index'
 _ = require './utils'
 
 module.exports = (index, type, entities)->
+  if entities.length is 0 then return Promise.resolve()
+
   batch = []
   entities.forEach appendEntity(index, type, batch)
 
