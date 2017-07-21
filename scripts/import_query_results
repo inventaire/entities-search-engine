@@ -6,16 +6,17 @@ _ = require '../lib/utils'
 
 types = require('./lib/types_parser')(resultsFolder, 'json')
 callOneByOne = require './lib/call_one_by_one'
-fetchAndPutEntitiesFromIds = require '../lib/fetch_and_put_entities_from_ids'
+fetchAndPutEntitiesFromUris = require '../lib/fetch_and_put_entities_from_uris'
 
 importEntities = (type)->
   # Beware of the path leading dot: require works from __dirname
   # not from process.cwd()
-  ids = require ".#{resultsFolder}/#{type}.json"
+  uris = require ".#{resultsFolder}/#{type}.json"
     # filtering-out properties and blank nodes (type: bnode)
     .filter wdk.isItemId
+    .map (id)-> "wd:#{id}"
 
-  return fetchAndPutEntitiesFromIds type, ids
+  return fetchAndPutEntitiesFromUris type, uris
   .then -> _.success type, 'done'
   .catch (err)->
     _.error [ err, type ], 'failed'
