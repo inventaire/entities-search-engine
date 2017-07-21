@@ -9,7 +9,7 @@ _ = require '../lib/utils'
 module.exports = (req, res)->
   urisPerType = req.body
 
-  getTypesPromises(urisPerType)
+  getTypesPromises urisPerType
   .then -> res.json { ok: true }
   .catch sendError(res)
 
