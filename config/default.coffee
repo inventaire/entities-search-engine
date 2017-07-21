@@ -15,4 +15,4 @@ module.exports =
     'series'
   ]
   inventaire:
-    host: 'https://inventaire.io'
+    host: 'http://localhost:3006'
