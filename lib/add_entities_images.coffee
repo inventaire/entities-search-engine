@@ -10,21 +10,34 @@ module.exports = (entities)->
   else
     uris = values(entities).map getEntityUri
 
-  url = "#{invHost}/api/entities?action=images&uris=#{uris.join('|')}"
+  # Add images one by one as each request might need a SPARQL request
+  # which is rate limited to 5 request at once
+  addImageToNextEntity = ->
+    uri = uris.pop()
 
-  console.log('url', url)
+    # When there is no more URIs,
+    # return the updated entities as final results
+    unless uri? then return entities
 
-  breq.get url
-  .then (res)->
-    { images } = res.body
-    for uri, entityImages of images
-      id = uri.split(':')[1]
+    console.log 'add image to next entity', uri
+
+    breq.get "#{invHost}/api/entities?action=images&uris=#{uri}"
+    .then (res)->
+      { images } = res.body
+      entityImages = values(images)[0]
+
       # Working around the difference between Wikidata that returns entities
       # indexed by Wikidata id and Inventaire that index by URIs
+      id = uri.split(':')[1]
       entity = entities[id] or entities[uri]
+
       entity.images = entityImages
 
-    return entities
+      return
+
+    .then addImageToNextEntity
+
+  return addImageToNextEntity()
 
 getEntityUri = (entity)->
   # At this point Wikidata entities have entity.id defined
