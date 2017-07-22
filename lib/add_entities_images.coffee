@@ -31,6 +31,9 @@ module.exports = (entities)->
       id = uri.split(':')[1]
       entity = entities[id] or entities[uri]
 
+      # Known case where we can't find the entity: it was redirected in the meantime
+      unless entity? then return
+
       entity.images = entityImages
 
       return
