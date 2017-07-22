@@ -80,6 +80,11 @@ removeMissingEntities = (entities)->
       _.warn id, 'missing value: ignored'
       delete entities[id]
 
+    unless entity?.claims?
+      # Known case: desambiguation pages given the type meta
+      _.warn id, 'entity has no claims: ignored'
+      delete entities[id]
+
   return entities
 
 spreadIdsByDomain = (data, uri)->
