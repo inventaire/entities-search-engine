@@ -20,7 +20,7 @@ What happens here:
 
 The same as the above but saving the Wikdiata dump to disk to avoid downloading 13GB multiple times when one time would be enough. This time, you do need the 13GB disk space, plus the space that will take your subsets in ElasticSearch
 ```sh
-alias wdfilter=./node_modules/wikidata-filter/bin/wikidata-filter
+alias wdfilter=./node_modules/.bin/wikidata-filter
 alias import_to_elastic=./bin/import_to_elasticsearch
 
 curl -s https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz > wikidata-dump.json.gz
@@ -30,4 +30,11 @@ cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q5 --omit type,siteli
 
 cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q571 --omit type,sitelinks | import_to_elastic wikidata books
 # => will be available at http://localhost:9200/wikidata/books
+```
+
+**Tip**
+If importing a dump fails at some point, rather than re-starting from 0, you can use the [`start-from`](https://github.com/maxlath/start-from) command to restart from the latest known line.
+Example:
+```sh
+cat wikidata-dump.json.gz | gzip -d | ./node_modules/.bin/start-from '"Q27999075"' | ./node_modules/.bin/wikidata-filter --claim P31:Q5 --omit type,sitelinks | ./bin/import_to_elasticsearch wikidata humans
 ```
