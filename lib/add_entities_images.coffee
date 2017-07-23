@@ -3,6 +3,13 @@ values = require 'lodash.values'
 { host:invHost } = require('config').inventaire
 _ = require './utils'
 
+# Assumes that entities in a batch are all from the same domain
+batchLengthPerDomain =
+  inv: 100
+  # Add images of Wikidata entities with small batches as each request might need a SPARQL request
+  # which is rate limited to 5 request at once
+  wd: 3
+
 module.exports = (entities)->
   if entities instanceof Array
     uris = entities.map getEntityUri
@@ -10,37 +17,39 @@ module.exports = (entities)->
   else
     uris = values(entities).map getEntityUri
 
-  # Add images one by one as each request might need a SPARQL request
-  # which is rate limited to 5 request at once
-  addImageToNextEntity = ->
-    uri = uris.pop()
+  if uris.length is 0 then return Promise.resolve entities
+
+  domain = uris[0].split(':')[0]
+  batchLength = batchLengthPerDomain[domain]
+
+  addImageToNextEntityBatch = ->
+    urisBatch = uris.splice(0, batchLength)
 
     # When there is no more URIs,
     # return the updated entities as final results
-    unless uri? then return entities
+    if urisBatch.length is 0 then return entities
 
-    console.log 'add image to next entity', uri
+    console.log 'add image to next entity batch', urisBatch
 
-    breq.get "#{invHost}/api/entities?action=images&uris=#{uri}"
+    breq.get "#{invHost}/api/entities?action=images&uris=#{urisBatch.join('|')}"
     .then (res)->
       { images } = res.body
-      entityImages = values(images)[0]
 
-      # Working around the difference between Wikidata that returns entities
-      # indexed by Wikidata id and Inventaire that index by URIs
-      id = uri.split(':')[1]
-      entity = entities[id] or entities[uri]
+      for uri, entityImages of images
+        # Working around the difference between Wikidata that returns entities
+        # indexed by Wikidata id and Inventaire that index by URIs
+        id = uri.split(':')[1]
+        entity = entities[id] or entities[uri]
 
-      # Known case where we can't find the entity: it was redirected in the meantime
-      unless entity? then return
-
-      entity.images = entityImages
+        # Case where we can't find the entity: it was redirected in the meantime
+        if entity?
+          entity.images = entityImages
 
       return
 
-    .then addImageToNextEntity
+    .then addImageToNextEntityBatch
 
-  return addImageToNextEntity()
+  return addImageToNextEntityBatch()
 
 getEntityUri = (entity)->
   # At this point Wikidata entities have entity.id defined
