@@ -25,10 +25,10 @@ alias import_to_elastic=./bin/import_to_elasticsearch
 
 curl -s https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz > wikidata-dump.json.gz
 
-cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q5 --omit type,sitelinks | import_to_elastic wikidata humans
+cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q5 --omit type,sitelinks | import_to_elastic humans
 # => will be available at http://localhost:9200/wikidata/humans
 
-cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q571 --omit type,sitelinks | import_to_elastic wikidata books
+cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q571 --omit type,sitelinks | import_to_elastic books
 # => will be available at http://localhost:9200/wikidata/books
 ```
 
@@ -36,5 +36,5 @@ cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q571 --omit type,site
 If importing a dump fails at some point, rather than re-starting from 0, you can use the [`start-from`](https://github.com/maxlath/start-from) command to restart from the latest known line.
 Example:
 ```sh
-cat wikidata-dump.json.gz | gzip -d | ./node_modules/.bin/start-from '"Q27999075"' | ./node_modules/.bin/wikidata-filter --claim P31:Q5 --omit type,sitelinks | ./bin/import_to_elasticsearch wikidata humans
+cat wikidata-dump.json.gz | gzip -d | ./node_modules/.bin/start-from '"Q27999075"' | ./node_modules/.bin/wikidata-filter --claim P31:Q5 --omit type,sitelinks | ./bin/import_to_elasticsearch humans
 ```

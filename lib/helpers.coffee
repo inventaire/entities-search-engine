@@ -1,6 +1,6 @@
 counter = 0
 
-module.exports =
+module.exports = helpers =
   removeTrailingComma: (line)-> line.replace /,$/, ''
 
   isJsonLine: (line)-> line[0] is '{' and line.slice(-1)[0] is '}'
@@ -26,3 +26,5 @@ module.exports =
     # have only an id defined
     else if entity.id? then 'wd:' + entity.id
     else throw new Error("couldn't find entity URI: #{JSON.stringify(entity)}")
+
+  getEntityDomain: (entity)-> helpers.getEntityUri(entity).split(':')[0]

@@ -50,7 +50,7 @@ PutNextBatch = (domain, index, type, urls)->
     .then unindexRemovedEntities(domain, index, type)
     .then removeMissingEntities
     .then formatEntities(type)
-    .then bulkPost.bind(null, index, type)
+    .then bulkPost.bind(null, type)
     # Will call itself until there is no more urls to fetch
     .then putNextBatch
     .catch _.ErrorRethrow('putNextBatch')

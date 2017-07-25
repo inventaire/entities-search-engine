@@ -1,12 +1,7 @@
 #!/usr/bin/env coffee
-[ index, type ] = process.argv.slice 2
+[ type ] = process.argv.slice 2
 split = require 'split'
 _ = require './utils'
-
-# inventaire indexes have the name of their CouchDB databases
-# ex: entities-prod
-unless index is 'wikidata' or index.split('-')[0] is 'entities'
-  throw new Error "invalid index: #{index}"
 
 unless type? and /^\w+$/.test type
   throw new Error "invalid type: #{type}"
@@ -55,7 +50,7 @@ formatAndPutCurrentBatch = ->
 
 formatAndPutBatch = (batch)->
   formatEntities batch
-  .then (formattedEntities)-> bulkPost index, type, formattedEntities
+  .then (formattedEntities)-> bulkPost type, formattedEntities
 
 done = ->
   # last batch
