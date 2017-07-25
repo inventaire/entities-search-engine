@@ -1,12 +1,8 @@
 { simplify, simplifyPropertyClaims } = require 'wikidata-sdk'
+{ getEntityId } = require './helpers'
 
 module.exports = (entity)->
-  # Working around differences in entities formatting between
-  # - Wikidata entities from a dump or from Wikidata API (entity.id)
-  # - Wikidata entities with inventaire formatting (entity.uri)
-  #   (returned in case of Inventaire entity redirection)
-  # - Inventaire entities (entity._id, entity.uri)
-  entity.id or= entity._id or entity.uri?.split(':')[1]
+  entity.id = getEntityId entity
   # Deleting inv entities CouchDB documents ids
   delete entity._id
 

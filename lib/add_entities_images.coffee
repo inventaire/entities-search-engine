@@ -2,6 +2,7 @@ breq = require 'bluereq'
 values = require 'lodash.values'
 { host:invHost } = require('config').inventaire
 _ = require './utils'
+{ getEntityUri, getEntityId } = require './helpers'
 
 # Assumes that entities in a batch are all from the same domain
 batchLengthPerDomain =
@@ -51,15 +52,9 @@ module.exports = (entities)->
 
   return addImageToNextEntityBatch()
 
-getEntityUri = (entity)->
-  # At this point Wikidata entities have entity.id defined
-  # while inventaire entities have entity._id
-  if entity.id? then 'wd:' + entity.id
-  else 'inv:' + entity._id
-
 indexById = (entities)->
   index = {}
   entities.forEach (entity)->
-    id = entity.id or entity._id
+    id = getEntityId entity
     index[id] = entity
   return index
