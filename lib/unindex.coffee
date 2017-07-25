@@ -7,7 +7,7 @@ _ = require './utils'
 module.exports = (index, type, uris)->
   if uris.length is 0 then return Promise.resolve()
 
-  _.log uris, 'unindexed'
+  _.log [ index, type, uris ], 'unindexed'
 
   batch = uris.map(unprefixify).map buildLine.bind(null, index, type)
 
