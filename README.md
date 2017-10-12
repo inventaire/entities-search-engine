@@ -2,7 +2,7 @@
 
 Tools to setup an ElasticSearch instance fed with subsets of Wikidata, to answer questions like *"give me all the humans with a name starting by xxx"* in a super snappy way, typically for the needs of an autocomplete field.
 
-Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inventaire](http://github.com/inventaire/inventaire)'s needs, but could probably be adapted to other use cases
+For the version tailored to [inventaire](http://github.com/inventaire/inventaire)'s needs, see the [`#integrateInvEntities`](https://github.com/inventaire/wikidata-subset-search-engine/tree/) branch
 
 ## Summary
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -16,7 +16,6 @@ Powering [data.inventaire.io](https://data.inventaire.io), and tailored for [inv
   - [add](#add)
   - [remove](#remove)
 - [Query ElasticSearch](#query-elasticsearch)
-- [data.inventaire.io](#datainventaireio)
 - [References](#references)
 - [Donate](#donate)
 - [See Also](#see-also)
@@ -33,7 +32,7 @@ see [setup](./SETUP.md) to install dependencies:
 * [ElasticSearch](https://en.wikipedia.org/wiki/Elasticsearch)
 * [Nginx](https://en.wikipedia.org/wiki/Nginx)
 * [Let's Encrypt](https://en.wikipedia.org/wiki/Let's_Encrypt)
-* already installed in any good **nix* system: curl, gzip
+* already installed in any good *nix* system: curl, gzip
 
 ### Start server
 see *[Wikidata per-entity import](./docs/wikidata_per_entity_import.md)*
@@ -57,15 +56,6 @@ npm run delete-from-results ./queries/results/mistakenly_added_ids.json
 ```sh
 curl "http://localhost:9200/wikidata/humans/_search?q=Victor%20Hugo"
 ```
-or try the result on data.inventaire.io
-```sh
-curl "https://data.inventaire.io/wikidata/humans/_search?q=Victor%20Hugo"
-```
-
-## data.inventaire.io
-Whitelisted endpoints:
-* [`/wikidata/humans/_search`](https://data.inventaire.io/wikidata/humans/_search?q=Victor)
-* [`/wikidata/genres/_search`](https://data.inventaire.io/wikidata/genres/_search?q=Biographie)
 
 ## References
 * [ElasticSearch Search API](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)
