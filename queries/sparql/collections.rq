@@ -1,0 +1,3 @@
+SELECT DISTINCT ?collection WHERE {
+  ?collection wdt:P31/wdt:P279* wd:Q20655472 .
+}

@@ -13,6 +13,7 @@ module.exports =
     'movements'
     'publishers'
     'series'
+    'collections'
   ]
   inventaire:
     host: 'http://localhost:3006'
