@@ -1,5 +1,6 @@
 { simplify, simplifyPropertyClaims } = require 'wikidata-sdk'
 { getEntityId } = require './helpers'
+getImagesFromClaims = require './get_images_from_claims'
 
 module.exports = (entity)->
   entity.id = getEntityId entity
@@ -29,6 +30,4 @@ module.exports = (entity)->
   return entity
 
 getImagesSync = (claims, needSimplification)->
-  imageClaims = claims.P18 or []
-  if needSimplification then imageClaims = simplifyPropertyClaims imageClaims
-  return { claims: imageClaims }
+  claims: getImagesFromClaims claims, needSimplification

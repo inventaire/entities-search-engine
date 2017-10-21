@@ -1,7 +1,6 @@
 breq = require 'bluereq'
-values = require 'lodash.values'
+_ = require 'lodash'
 { host:invHost } = require('config').inventaire
-_ = require './utils'
 { getEntityUri, getEntityId } = require './helpers'
 
 # Assumes that entities in a batch are all from the same domain
@@ -16,7 +15,7 @@ module.exports = (entities)->
     uris = entities.map getEntityUri
     entities = indexById entities
   else
-    uris = values(entities).map getEntityUri
+    uris = _.values(entities).map getEntityUri
 
   if uris.length is 0 then return Promise.resolve entities
 

@@ -1,6 +1,4 @@
 CONFIG = require 'config'
-values = require 'lodash.values'
-compact = require 'lodash.compact'
 bulkPost = require './bulk_post_to_elasticsearch'
 wdk = require 'wikidata-sdk'
 # omitting type, sitelinks

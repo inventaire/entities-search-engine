@@ -1,7 +1,7 @@
 formatEntity = require './format_entity'
 haveSpecialImagesGetter = require './have_special_images_getter'
 addEntitiesImages = require './add_entities_images'
-values = require 'lodash.values'
+_ = require 'lodash'
 
 module.exports = (type)-> (entities)->
   if type in haveSpecialImagesGetter
@@ -12,6 +12,6 @@ module.exports = (type)-> (entities)->
 
 formatEntities = (entities)->
   unless entities instanceof Array
-    entities = values entities
+    entities = _.values entities
 
   return entities.map formatEntity
