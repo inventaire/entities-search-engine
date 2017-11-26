@@ -1,4 +1,5 @@
-{ simplify, simplifyPropertyClaims } = require 'wikidata-sdk'
+wdk = require 'wikidata-sdk'
+{ simplify, simplifyPropertyClaims } = wdk
 { getEntityId } = require './helpers'
 getImagesFromClaims = require './get_images_from_claims'
 
@@ -7,10 +8,14 @@ module.exports = (entity)->
   # Deleting inv entities CouchDB documents ids
   delete entity._id
 
-  # Only Wikidata entities need to be simplified: inv entities are already
-  # Wikidata entities with a URI come from the Inventaire API
-  # and are thus already simplified
-  needSimplification = entity.id[0] is 'Q' and not entity.uri?
+  if wdk.isItemId entity.id
+    # Only Wikidata entities need to be simplified: inv entities are already
+    # Wikidata entities with a URI come from the Inventaire API
+    # and are thus already simplified
+    needSimplification = not entity.uri?
+    entity.uri = 'wd:' + entity.id
+  else
+    needSimplification = false
 
   # Take images from claims if no images object was set by add_entities_images,
   # that is, for every entity types but works and series
