@@ -12,26 +12,26 @@ breq = require 'bluereq'
 { wikidata:wdIndex, inventaire:invIndex } = CONFIG.elastic.indexes
 
 module.exports = (type, uris)->
-  unless type in whitelist
-    _.warn "#{type} not in types whitelist"
-    err = new Error 'non whitelisted type'
-    err.statusCode = 400
-    err.context = [ { type, whitelist } ]
-    return Promise.reject err
-
   _.log uris, "#{type} uris"
 
   { wdIds, invUris } = uris.reduce spreadIdsByDomain, { wdIds: [], invUris: [] }
 
   promises = []
-  if wdIds.length > 0
-    # generate urls for batches of 50 entities
-    wdUrls = wdk.getManyEntities { ids: wdIds, props }
-    promises.push PutNextBatch('wd', wdIndex, type, wdUrls)()
 
-  if invUris.length > 0
-    invUrl = getInvEntities invUris
-    promises.push PutNextBatch('inv', invIndex, type, [ invUrl ])()
+  if type in whitelist
+    if wdIds.length > 0
+      # generate urls for batches of 50 entities
+      wdUrls = wdk.getManyEntities { ids: wdIds, props }
+      promises.push PutNextBatch('wd', wdIndex, type, wdUrls)()
+
+    if invUris.length > 0
+      invUrl = getInvEntities invUris
+      promises.push PutNextBatch('inv', invIndex, type, [ invUrl ])()
+  else
+    # If the type isn't whitelisted make sure the associated entity wasn't
+    # indexed in another type before
+    if wdIds.length > 0 then promises.push unindex(wdIndex, '_all', wdIds)
+    if invUris.length > 0 then promises.push unindex(invIndex, '_all', invUris)
 
   return Promise.all promises
 
