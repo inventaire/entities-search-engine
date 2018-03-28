@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "export NODE_ENV=tests; mocha --compilers coffee:coffee-script/register test/*.test.coffee",
     "postinstall": "./scripts/postinstall",
     "start": "coffee server/server.coffee",
     "watch": "supervisor -w . server/server.coffee",
@@ -37,6 +37,8 @@
   },
   "devDependencies": {
     "doctoc": "^1.2.0",
+    "mocha": "^3.1.2",
+    "should": "^13.2.1",
     "supervisor": "^0.12.0"
   }
 }
