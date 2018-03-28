@@ -1,8 +1,8 @@
-# Wikidata Subset Search Engine
+# Entities Search Engine
 
-Tools to setup an ElasticSearch instance fed with subsets of Wikidata, to answer questions like *"give me all the humans with a name starting by xxx"* in a super snappy way, typically for the needs of an autocomplete field.
+Scripts and microservice to feed an ElasticSearch with [Wikidata](https://wikidata.org) and [Inventaire](https://inventaire.io) entities (see *[entities map](https://inventaire.github.io/entities-map/)*), and keep those up-to-date, to answer questions like *"give me all the humans with a name starting by xxx"* in a super snappy way, typically for the needs of an autocomplete field.
 
-For the version tailored to [inventaire](http://github.com/inventaire/inventaire)'s needs, see the [`#integrateInvEntities`](https://github.com/inventaire/wikidata-subset-search-engine/tree/) branch
+For the Wikidata-only version see the archived branch  [`#wikidata-subset-search-engine`](https://github.com/inventaire/entities-search-engine/tree/wikidata-subset-search-engine) branch.
 
 ## Summary
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -35,15 +35,24 @@ see [setup](./SETUP.md) to install dependencies:
 * already installed in any good *nix* system: curl, gzip
 
 ### Start server
-see *[Wikidata per-entity import](./docs/wikidata_per_entity_import.md)*
+see *[Wikidata and Inventaire per-entity import](./docs/wikidata_and_inventaire_per_entity_import.md)*
 
 ## Data imports
 
 ### add
-2 ways to import entities data into your ElasticSearch instance
-* [Wikidata filtered-dump import](./docs/wikidata_filtered_dump_import.md)
-* [Wikidata batch import using SPARQL queries results](./docs/wikidata_batch_import_using_sparql_queries_results.md)
-* [Wikidata per-entity import](./docs/wikidata_per_entity_import.md)
+
+#### Wikidata entities
+3 ways to import Wikidata entities data into your ElasticSearch instance
+* [Filtered-dump import](./docs/wikidata_filtered_dump_import.md)
+* [Batch import using SPARQL queries results](./docs/wikidata_batch_import_using_sparql_queries_results.md)
+* [Per-entity import](./docs/wikidata_and_inventaire_per_entity_import.md)
+
+#### Inventaire entities
+* [Batch import using CouchDB views](./docs/inventaire_batch_import_using_couch_db_views.md)
+* [Per-entity import](./docs/wikidata_and_inventaire_per_entity_import.md)
+
+### update
+To update any entity, simply re-add it, typically by posting its URI (ex: 'wd:Q180736' for a Wikidata entity, or 'inv:9cf5fbb9affab552cd4fb77712970141' for an Inventaire one) to the [server](./docs/wikidata_and_inventaire_per_entity_import.md)
 
 ### remove
 To un-index entities that were mistakenly added, pass the path of a results json file, supposedly made of an array of ids. All those ids' documents will be deleted

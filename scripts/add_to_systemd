@@ -6,4 +6,4 @@ sudo env "PATH=$PATH" add-to-systemd \
    --env NODE_ENV=production \
    --env FORCE_COLOR=true \
    --env PATH="$PATH" \
-   wsse "$(which coffee) $(pwd)/server/server.coffee"
+   entities-search-engine "$(which coffee) $(pwd)/server/server.coffee"
