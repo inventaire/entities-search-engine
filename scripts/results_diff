@@ -5,10 +5,10 @@
 [ pathA, pathB ] = process.argv.slice(2)
 _ = require 'lodash'
 
-resolvePath = require './lib/resolve_path'
+path = require 'path'
 
-a = require resolvePath(pathA)
-b = require resolvePath(pathB)
+a = require path.resolve(pathA)
+b = require path.resolve(pathB)
 
 console.log('a', a.length)
 console.log('b', b.length)

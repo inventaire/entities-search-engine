@@ -6,8 +6,8 @@
 { host:elasticHost, indexes } = require('config').elastic
 { wikidata:index } = indexes
 
-resolvePath = require './lib/resolve_path'
-ids = require resolvePath(resultPath)
+path = require 'path'
+ids = require path.resolve(resultPath)
 breq = require 'bluereq'
 _ = require '../lib/utils'
 
