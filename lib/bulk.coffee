@@ -11,5 +11,30 @@ module.exports =
     return lines.join('\n') + '\n'
 
   logRes: (label)-> (res)->
-    # Avoid logging all the items response objects
-    _.log res.body[0..100] + '...', label
+    res = JSON.parse res.body
+    globalStatus = {}
+
+    res.items.forEach (item)->
+      for operation, opRes of item
+        globalStatus[operation] ?= { success: 0, error: 0 }
+        if opRes.status >= 400
+          _.warn item, "#{label} failed"
+          globalStatus[operation].error++
+        else
+          globalStatus[operation].success++
+
+    _.log globalStatus, label, getLoggerColor(globalStatus)
+
+getLoggerColor = (globalStatus)->
+  totalSuccesses = aggregateAttribute globalStatus, 'success'
+  totalErrors = aggregateAttribute globalStatus, 'errors'
+  if totalSuccesses > 0 and totalErrors > 0 then return 'yellow'
+  if totalSuccesses > 0 then return 'green'
+  return 'red'
+
+aggregateAttribute = (globalStatus, attribute)->
+  Object.values globalStatus
+  .map (obj)-> obj[attribute]
+  .reduce sum, 0
+
+sum = (a, b)-> a + b
