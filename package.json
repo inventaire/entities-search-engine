@@ -1,5 +1,5 @@
 {
-  "name": "wikidata-subset-search-engine",
+  "name": "entities-search-engine",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
