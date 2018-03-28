@@ -26,4 +26,6 @@ sleep 5
 # Make sure service is running
 curl http://localhost:9200
 # Create the `wikidata` index
+# TODO: verify that this line is really needed
+# as Elastic creates the indexes at first POST request
 curl -XPUT http://localhost:9200/wikidata

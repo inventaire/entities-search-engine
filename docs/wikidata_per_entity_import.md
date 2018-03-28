@@ -1,4 +1,4 @@
-## Wikidata per-entity import
+## Wikidata and Inventaire per-entity import
 
 Start the server
 ```sh
@@ -10,11 +10,11 @@ npm run add-to-systemd
 sudo systemctl restart wsse
 ```
 
-Then `POST` the `ids` of entities you want to import, sorted per `type`:
+Then `POST` the URIs of the entities you want to import, sorted per `type`:
 
 * with curl
 ```sh
-curl -H "Content-Type: application/json" -XPOST http://localhost:3213 -d '{"humans":["Q421512"], "series":["Q3656893"]}'
+curl -H "Content-Type: application/json" -XPOST http://localhost:3213 -d '{"humans":["wd:Q421512"], "series":["wd:Q3656893"], "works": ["inv:9cf5fbb9affab552cd4fb77712970141", "wd:Q180736"]}'
 ```
 
 * with an HTTP lib like [request](https://github.com/request/request)
@@ -22,10 +22,9 @@ curl -H "Content-Type: application/json" -XPOST http://localhost:3213 -d '{"huma
 request.post({
   url: 'http://localhost:3213',
   json: {
-    humans: ['Q421512'],
-    series: ['Q3656893']
+    humans: ['wd:Q421512'],
+    series: ['wd:Q3656893'],
+    works: ['inv:9cf5fbb9affab552cd4fb77712970141', 'wd:Q180736']
   }
 })
 ```
-
-Both request would import Q112983 and Q185598 to `/wikidata/genres`

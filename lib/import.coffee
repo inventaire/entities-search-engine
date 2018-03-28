@@ -4,42 +4,60 @@ split = require 'split'
 _ = require './utils'
 
 unless type? and /^\w+$/.test type
-  throw new Error "invalid data type: #{type}"
+  throw new Error "invalid type: #{type}"
 
 { removeTrailingComma, isJsonLine, logCount } = require './helpers'
+formatEntities = require('./format_entities')(type)
 bulkPost = require './bulk_post_to_elasticsearch'
-formatEntity = require './format_entity'
 
+haveSpecialImagesGetter = require './have_special_images_getter'
+if type in haveSpecialImagesGetter
+  batchLength = 100
+else
+  batchLength = 1000
+
+lineStream = process.stdin.pipe split()
+
+formattingBatch = []
 entitiesBatch = []
+lineCount = 0
 onLine = (line)->
-  # ignore empty line
-  if line is '' then return
+  lineCount++
+  # ignore empty lines
+  if line is '' or line is '[' or line is ']' then return
 
   line = removeTrailingComma line
 
   # discard invalid lines
   unless isJsonLine line
-    _.error line, 'invalid line'
+    _.error line, "invalid line: #{lineCount}"
     return
 
-  entity = formatEntity JSON.parse(line)
-  entitiesBatch.push entity
-  if entitiesBatch.length > 500 then putBatch()
-  logCount()
+  entitiesBatch.push JSON.parse(line)
+  if entitiesBatch.length >= batchLength then formatAndPutCurrentBatch()
+  logCount lineCount
 
-putBatch = ->
-  _.success entitiesBatch.length, 'putting batch!'
+formatAndPutCurrentBatch = ->
+  _.success entitiesBatch.length, 'putting batch...'
   [ currentBatch, entitiesBatch ] = [ entitiesBatch, [] ]
-  bulkPost type, currentBatch
+
+  # Pause to limit the amount of concurrent batches being formatted to one
+  lineStream.pause()
+
+  formatAndPutBatch currentBatch
+  .then -> lineStream.resume()
+  .catch (err)-> _.error [ err, err.body ], 'formatAndPutBatch err body'
+
+formatAndPutBatch = (batch)->
+  formatEntities batch
+  .then (formattedEntities)-> bulkPost type, formattedEntities
 
 done = ->
   # last batch
-  bulkPost type, entitiesBatch
-  _.success 'stream done!'
-  # Do not exit the process yet as requests should still be ongoing
+  formatAndPutBatch entitiesBatch
+  .then -> _.success 'done!'
 
-process.stdin
-.pipe split()
+lineStream
 .on 'data', onLine
 .on 'error', _.Error('stream error')
 .on 'close', done

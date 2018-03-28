@@ -15,11 +15,10 @@ archive = (type)->
     { mtime } = fs.statSync file
     timestamp = mtime.toISOString().replace(':', '-').split(':')[0]
     renamed = file.replace '.json', ".#{timestamp}.json"
-    # Ignore ENOENT errors
-    return "[ -e #{file} ] && mv #{file} #{renamed} 2> /dev/null"
+    return "mv #{file} #{renamed}"
   catch err
-    console.log err.message
-    return "echo 'no file archived'"
+    if err.code is 'ENOENT' then return "echo 'no file to archive'"
+    else throw err
 
 update = (type)->
   "#{wdsparql} #{sparqlFolder}/#{type}.rq > ./queries/results/#{type}.json"

@@ -1,25 +1,26 @@
-# POST { type, ids }
+# POST { type, uris }
 # => fetch entities
-# => index entities in ElasticSearch Wikidata index
+# => index entities in ElasticSearch wikidata or inventaire indexes,
+#    depending on the URI domain
 
-fetchAndPutEntitiesFromIds = require '../lib/fetch_and_put_entities_from_ids'
+fetchAndPutEntitiesFromUris = require '../lib/fetch_and_put_entities_from_uris'
 _ = require '../lib/utils'
 
 module.exports = (req, res)->
-  idsPerType = req.body
+  urisPerType = req.body
 
-  getTypesPromises(idsPerType)
+  getTypesPromises urisPerType
   .then -> res.json { ok: true }
   .catch sendError(res)
 
-getTypesPromises = (idsPerType)->
+getTypesPromises = (urisPerType)->
   promises = []
-  for type, ids of idsPerType
-    unless ids instanceof Array
-      return Promise.reject new Error("invalid ids array (#{type})")
+  for type, uris of urisPerType
+    unless uris instanceof Array
+      return Promise.reject new Error("invalid uris array (#{type})")
 
-    if ids.length > 0
-      promises.push fetchAndPutEntitiesFromIds(type, ids).catch passNonWhitelisted
+    if uris.length > 0
+      promises.push fetchAndPutEntitiesFromUris(type, uris).catch passNonWhitelisted
 
   return Promise.all promises
 
