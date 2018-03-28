@@ -57,11 +57,18 @@ To update any entity, simply re-add it, typically by posting its URI (ex: 'wd:Q1
 ### remove
 To un-index entities that were mistakenly added, pass the path of a results json file, supposedly made of an array of ids. All those ids' documents will be deleted
 ```sh
-npm run delete-from-results ./queries/results/mistakenly_added_ids.json
+index=wikidata
+type=humans
+ids_json_array=./queries/results/mistakenly_added_wikidata_humans_ids.json
+npm run delete-from-results $index $type $ids_json_array
+
+index=entities-prod
+type=works
+ids_json_array=./queries/results/mistakenly_added_inventaire_works_ids.json
+npm run delete-from-results $index $type $ids_json_array
 ```
 
 ## Query ElasticSearch
-
 ```sh
 curl "http://localhost:9200/wikidata/humans/_search?q=Victor%20Hugo"
 ```

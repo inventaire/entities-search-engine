@@ -2,44 +2,28 @@
 
 # Pass the path of a results json file, supposedly made of an array of ids:
 # all those ids documents will be deleted
-[ resultPath ] = process.argv.slice(2)
+[ index, type, resultPath ] = process.argv.slice(2)
 { host:elasticHost, indexes } = require('config').elastic
-{ wikidata:index } = indexes
 
 path = require 'path'
 ids = require path.resolve(resultPath)
 breq = require 'bluereq'
 _ = require '../lib/utils'
+unindex = require '../lib/unindex'
 
-type = resultPath.split('/').slice(-1)[0].split('.')[0]
-_.info type, 'type'
-total = ids.length
-_.info total, 'ids'
+_.info ids.length, 'ids total'
 
-# TODO: use the Bulk API
-# https://www.elastic.co/guide/en/elasticsearch/reference/2.3/docs-bulk.html
 deleteNextBulk = ->
-  idsBatch = ids.splice(0, 1000)
+  _.info ids.length, 'remaining'
 
-  body = idsBatch.map(metaDataLine).join '\n'
+  idsBatch = ids.splice 0, 1000
 
-  breq.post "http://localhost:9200/_bulk", body
-  .then ->
-    _.success idsBatch, 'deleted'
-    _.info ids.length, 'remaining'
-    if ids.length > 0 then setTimeout deleteNextBulk, 200
-  .catch (err)->
-    # if 404, continue as the document might just
-    # have been manully deleted earlier
-    if err.statusCode is 404
-      _.warn idsBatch, '404'
-      setTimeout deleteNextBulk, 200
-    else
-      _.error err, 'err'
+  if idsBatch.length is 0
+    _.success 'done'
+    return
 
-metaDataLine = (id)->
-  "{\"delete\":{\"_index\":\"#{index}\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}"
+  unindex index, type, idsBatch
+  .delay 200
+  .then deleteNextBulk
 
-# let 5 seconds to kill the process if something is wrong
-_.info 'starting in 5 seconds...'
-setTimeout deleteNextBulk, 5000
+deleteNextBulk()
