@@ -28,10 +28,10 @@ For the Wikidata-only version see the archived branch  [`#wikidata-subset-search
 
 ### Dependencies
 see [setup](./SETUP.md) to install dependencies:
-* [NodeJs](https://en.wikipedia.org/wiki/Nodejs)
-* [ElasticSearch](https://en.wikipedia.org/wiki/Elasticsearch)
-* [Nginx](https://en.wikipedia.org/wiki/Nginx)
-* [Let's Encrypt](https://en.wikipedia.org/wiki/Let's_Encrypt)
+* [NodeJs](http://nodejs.org/) `>= v6.4`
+* [ElasticSearch](https://www.elastic.co/fr/products/elasticsearch) (this repo was developed targeting ElasticSearch `v2.4`, but it should work with newer version with some minimal changes)
+* [Nginx](http://nginx.org/en/)
+* [Let's Encrypt](http://letsencrypt.org/)
 * already installed in any good *nix* system: curl, gzip
 
 ### Start server
