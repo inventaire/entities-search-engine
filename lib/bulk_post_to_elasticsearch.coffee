@@ -1,6 +1,4 @@
 CONFIG = require 'config'
-{ host:elasticHost } = CONFIG.elastic
-breq = require 'bluereq'
 bulk = require './bulk'
 buildLine = bulk.buildLine.bind null, 'index'
 _ = require './utils'
@@ -17,7 +15,7 @@ module.exports = (type, entities)->
   batch = []
   entities.forEach appendEntity(type, batch)
 
-  breq.post "#{elasticHost}/_bulk", bulk.joinLines(batch)
+  bulk.postBatch batch
   .then bulk.logRes('bulk post res')
   .catch _.Error('bulk post err')
 

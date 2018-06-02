@@ -1,6 +1,4 @@
-{ host:elasticHost } = require('config').elastic
 Promise = require 'bluebird'
-breq = require 'bluereq'
 bulk = require './bulk'
 buildLine = bulk.buildLine.bind null, 'delete'
 _ = require './utils'
@@ -14,7 +12,7 @@ module.exports = (index, type='_all', uris)->
   getBatch index, type, uris.map(unprefixify)
   .then (batch)->
     if batch.length is 0 then return
-    breq.post "#{elasticHost}/_bulk", bulk.joinLines(batch)
+    bulk.postBatch batch
     .then bulk.logRes("bulk unindex res (#{index}/#{type})")
   .catch _.ErrorRethrow('unindex err')
 

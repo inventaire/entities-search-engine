@@ -1,4 +1,4 @@
-{ host:elasticHost } = require('config').elastic
+{ host: elasticHost } = require('config').elastic
 breq = require 'bluereq'
 bulk = require '../lib/bulk'
 _ = require '../lib/utils'
@@ -37,7 +37,7 @@ deleteIndex = ->
 postDocs = ->
   batch = []
   getDocs().forEach addToBatch(batch)
-  breq.post "#{elasticHost}/_bulk", bulk.joinLines(batch)
+  bulk.postBatch batch
   .then bulk.logRes('fixtures bulk')
 
 addToBatch = (batch)-> (doc)->

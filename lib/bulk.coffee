@@ -1,6 +1,8 @@
 _ = require './utils'
+breq = require 'bluereq'
+{ host: elasticHost } = require('config').elastic
 
-module.exports =
+module.exports = bulk =
   buildLine: (action, index, type, id)->
     "{\"#{action}\":{\"_index\":\"#{index}\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}"
 
@@ -24,6 +26,15 @@ module.exports =
           globalStatus[operation].success++
 
     _.log globalStatus, label, getLoggerColor(globalStatus)
+
+  postBatch: (batch)->
+    _.log batch, 'batch'
+    breq.post
+      url: "#{elasticHost}/_bulk"
+      headers: { 'Content-Type': 'application/json' }
+      body: bulk.joinLines batch
+      # See https://github.com/inventaire/entities-search-engine/issues/4#issuecomment-393832703
+      json: false
 
 getLoggerColor = (globalStatus)->
   totalSuccesses = aggregateAttribute globalStatus, 'success'
