@@ -28,7 +28,6 @@ module.exports = bulk =
     _.log globalStatus, label, getLoggerColor(globalStatus)
 
   postBatch: (batch)->
-    _.log batch, 'batch'
     breq.post
       url: "#{elasticHost}/_bulk"
       headers: { 'Content-Type': 'application/json' }
