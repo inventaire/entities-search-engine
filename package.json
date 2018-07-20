@@ -12,7 +12,7 @@
     "import-query-results": "coffee ./scripts/import_query_results",
     "update-and-import-all": "npm run update-query-results all && npm run import-query-results all",
     "delete-from-results": "./scripts/delete_from_results",
-    "update-toc": "doctoc README.md"
+    "update-toc": "./scripts/update_toc"
   },
   "author": "maxlath",
   "license": "MIT",

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+doctoc README.md
+# Override summuries to directly link to the right doc
+sed -i 's/#setup/SETUP.md/' ./README.md

@@ -9,7 +9,7 @@ For the Wikidata-only version see the archived branch  [`#entities-search-engine
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Setup](#setup)
+- [Setup](SETUP.md)
   - [Dependencies](#dependencies)
   - [Start server](#start-server)
 - [Data imports](#data-imports)
@@ -25,6 +25,7 @@ For the Wikidata-only version see the archived branch  [`#entities-search-engine
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Setup
+see [setup](./SETUP.md)
 
 ### Dependencies
 see [setup](./SETUP.md) to install dependencies:
