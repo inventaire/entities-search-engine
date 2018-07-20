@@ -6,8 +6,8 @@ sudo cp ./nginx.service /etc/systemd/system/
 
 # setup nginx systemd service
 sudo systemctl daemon-reload
-sudo systemctl enable nginx.service
-sudo systemctl start nginx.service
+sudo systemctl enable nginx
+sudo systemctl start nginx
 
 sudo cp ./init-config /etc/nginx/sites-enabled/default
 # reload a first time with the config tailored for letsencrypt

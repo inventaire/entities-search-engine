@@ -2,7 +2,7 @@
 
 Scripts and microservice to feed an ElasticSearch with [Wikidata](https://wikidata.org) and [Inventaire](https://inventaire.io) entities (see *[entities map](https://inventaire.github.io/entities-map/)*), and keep those up-to-date, to answer questions like *"give me all the humans with a name starting by xxx"* in a super snappy way, typically for the needs of an autocomplete field.
 
-For the Wikidata-only version see the archived branch  [`#wikidata-subset-search-engine`](https://github.com/inventaire/entities-search-engine/tree/wikidata-subset-search-engine) branch.
+For the Wikidata-only version see the archived branch  [`#entities-search-engine`](https://github.com/inventaire/entities-search-engine/tree/entities-search-engine) branch.
 
 ## Summary
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

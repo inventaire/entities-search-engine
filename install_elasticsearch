@@ -18,8 +18,8 @@ sudo apt-get install oracle-java8-installer elasticsearch -y
 
 # Start ElasticSearch at startup
 sudo systemctl daemon-reload
-sudo systemctl enable elasticsearch.service
-sudo systemctl start elasticsearch.service
+sudo systemctl enable elasticsearch
+sudo systemctl start elasticsearch
 
 # Lets wait a little while ElasticSearch starts
 sleep 5

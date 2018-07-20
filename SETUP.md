@@ -7,25 +7,25 @@ This setup tragets Ubuntu 16.04
 ./install_node
 ```
 
-#### install wikidata-subset-search-engine
+#### install entities-search-engine
 ```sh
-git clone https://github.com/inventaire/wikidata-subset-search-engine.git
-cd wikidata-subset-search-engine
+git clone https://github.com/inventaire/entities-search-engine.git
+cd entities-search-engine
 npm install
 npm run add-to-systemd
-sudo systemctl start wsse
+sudo systemctl start entities-search-engine
 ```
 
 #### install elasticsearch
 see [official documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html)
 ```sh
-# from the wikidata-subset-search-engine folder
+# from the entities-search-engine folder
 ./install_elasticsearch
 ```
 
 #### install nginx
 ```sh
-# from the wikidata-subset-search-engine folder
+# from the entities-search-engine folder
 cd nginx && ./install
 ```
 
