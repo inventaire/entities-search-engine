@@ -1,4 +1,5 @@
 _ = require './utils'
+{ values } = require 'lodash'
 breq = require 'bluereq'
 { host: elasticHost } = require('config').elastic
 
@@ -43,7 +44,7 @@ getLoggerColor = (globalStatus)->
   return 'red'
 
 aggregateAttribute = (globalStatus, attribute)->
-  Object.values globalStatus
+  values globalStatus
   .map (obj)-> obj[attribute]
   .reduce sum, 0
 
