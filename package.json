@@ -12,7 +12,10 @@
     "import-query-results": "coffee ./scripts/import_query_results",
     "update-and-import-all": "npm run update-query-results all && npm run import-query-results all",
     "delete-from-results": "./scripts/delete_from_results",
-    "update-toc": "./scripts/update_toc"
+    "update-toc": "./scripts/update_toc",
+    "export-indexes": "./scripts/export_indexes",
+    "download-remote-indexes": "./scripts/download_remote_indexes",
+    "import-indexes": "./scripts/import_indexes"
   },
   "author": "maxlath",
   "license": "AGPL-3.0",
@@ -37,6 +40,7 @@
   },
   "devDependencies": {
     "doctoc": "^1.2.0",
+    "elasticdump": "^2.4.2",
     "mocha": "^3.1.2",
     "should": "^13.2.1",
     "supervisor": "^0.12.0"
