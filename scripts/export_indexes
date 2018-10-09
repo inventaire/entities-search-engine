@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 source ./scripts/lib/import_export_commons
 
+mkdir -p "$dump_folder"
+
 export_index_base(){
   index=$1
   type=$2
