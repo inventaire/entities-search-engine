@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 es_host=$(node -p "require('config').elastic.host")
 inv_entities_index=$(node -p "require('config').elastic.indexes.inventaire")
 wd_entities_index=$(node -p "require('config').elastic.indexes.wikidata")

@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 set -eu
 
 source ./scripts/lib/import_export_commons
@@ -27,7 +27,6 @@ export_index(){
   export_index_base "$index" 'mapping'
   export_index_base "$index" 'data'
 }
-
 
 export_index "$inv_entities_index"
 export_index "$wd_entities_index"
