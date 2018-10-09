@@ -9,37 +9,41 @@ CONFIG = require 'config'
 breq = require 'bluereq'
 { host:elasticHost, indexes } = CONFIG.elastic
 
-ensureElasticIndex = ->
+unless indexes.inventaire
+  throw new Error "Missing config indexes.inventaire"
+
+setupElastic = ->
   breq.get elasticHost
-  .then createIndex
+  .then ensureElasticInvIndex
   .catch waitForElastic
-
-createIndex = ->
-  unless indexes.inventaire
-    return console.log "no inventaire indexes"
-
-  breq.get "#{elasticHost}/#{indexes.inventaire}"
-  .catch (err)->
-    breq.put "#{elasticHost}/#{indexes.inventaire}"
-    .catch (err)->
-      _.error err "invalid elastic index name"
-
-waitForElastic = (err) ->
-  unless err.message.includes 'ECONNREFUSED' then throw err
-
-  Promise.resolve()
-  .delay 1000
-  .then ensureElasticIndex
 
 start = ->
   app = require('express')()
   bodyParser = require 'body-parser'
   app.use bodyParser.json()
   app.use bodyParser.urlencoded({ extended: true })
-
   app.post '/', require('./post')
-
   app.listen port, -> _.info "server listening on port #{port}"
 
-ensureElasticIndex()
+ensureElasticInvIndex = ->
+  invIndexUri = "#{elasticHost}/#{indexes.inventaire}"
+  breq.get invIndexUri
+  .catch (err)->
+    unless err.statusMessage.includes 'Not Found'
+      throw err
+    createIndex(invIndexUri)
+
+createIndex = (uri) ->
+  breq.put uri
+  .catch (err)->
+    throw new Error "Failed to create #{elasticHost}/#{indexes.inventaire}"
+
+waitForElastic = (err) ->
+  unless err.message.includes 'ECONNREFUSED'
+    throw err
+  Promise.resolve()
+  .delay 500
+  .then setupElastic
+
+setupElastic()
 .then start
