@@ -1,4 +1,6 @@
 #!/usr/bin/env zsh
+set -eu
+
 source ./scripts/lib/import_export_commons
 
 mkdir -p "$dump_folder"
