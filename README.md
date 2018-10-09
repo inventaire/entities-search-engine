@@ -13,8 +13,13 @@ For the Wikidata-only version see the archived branch  [`#entities-search-engine
   - [Dependencies](#dependencies)
   - [Start server](#start-server)
 - [Data imports](#data-imports)
-  - [add](#add)
-  - [remove](#remove)
+  - [from scratch](#from-scratch)
+    - [add](#add)
+      - [Wikidata entities](#wikidata-entities)
+      - [Inventaire entities](#inventaire-entities)
+    - [update](#update)
+    - [remove](#remove)
+  - [importing dumps](#importing-dumps)
 - [Query ElasticSearch](#query-elasticsearch)
 - [References](#references)
 - [Donate](#donate)
@@ -40,22 +45,23 @@ see *[Wikidata and Inventaire per-entity import](./docs/wikidata_and_inventaire_
 
 ## Data imports
 
-### add
+### from scratch
 
-#### Wikidata entities
+#### add
+##### Wikidata entities
 3 ways to import Wikidata entities data into your ElasticSearch instance
 * [Filtered-dump import](./docs/wikidata_filtered_dump_import.md)
 * [Batch import using SPARQL queries results](./docs/wikidata_batch_import_using_sparql_queries_results.md)
 * [Per-entity import](./docs/wikidata_and_inventaire_per_entity_import.md)
 
-#### Inventaire entities
+##### Inventaire entities
 * [Batch import using CouchDB views](./docs/inventaire_batch_import_using_couch_db_views.md)
 * [Per-entity import](./docs/wikidata_and_inventaire_per_entity_import.md)
 
-### update
+#### update
 To update any entity, simply re-add it, typically by posting its URI (ex: 'wd:Q180736' for a Wikidata entity, or 'inv:9cf5fbb9affab552cd4fb77712970141' for an Inventaire one) to the [server](./docs/wikidata_and_inventaire_per_entity_import.md)
 
-### remove
+#### remove
 To un-index entities that were mistakenly added, pass the path of a results json file, supposedly made of an array of ids. All those ids' documents will be deleted
 ```sh
 index=wikidata
@@ -67,6 +73,17 @@ index=entities-prod
 type=works
 ids_json_array=./queries/results/mistakenly_added_inventaire_works_ids.json
 npm run delete-from-results $index $type $ids_json_array
+```
+
+### importing dumps
+You can import dumps from inventaire.io prod elasticsearch instance:
+```sh
+mkdir -p dumps
+# Downloading Wikidata and Inventaire dumps
+# from https://dumps.inventaire.io/inv/latest/elasticsearch_indexes
+npm run download-remote-indexes
+# Loading them in your local elasticsearch
+npm run import-indexes
 ```
 
 ## Query ElasticSearch
