@@ -1,11 +1,9 @@
-This setup tragets Ubuntu 16.04
+This setup tragets Ubuntu 16.04 or superior
 
 #### install nodejs
+`>= 6.4`
 * the official way: [NodeJs](http://nodejs.org/)
-* but I would rather recommand to use the awesome Node Version Manager [NVM](https://github.com/creationix/nvm):
-```sh
-./install_node
-```
+* but I would rather recommand to use the awesome Node Version Manager [NVM](https://github.com/creationix/nvm)
 
 #### install entities-search-engine
 ```sh

@@ -1,9 +1,0 @@
-#!/usr/bin/env zsh
-# download nvm (I trust this script, but you might want to read it as *one should never pipe a script to shell*  :p)
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
-
-# reload the environment
-source ~/.zshrc
-
-# install the lastest LTS version
-nvm install 6
