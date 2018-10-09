@@ -15,7 +15,7 @@
     "update-toc": "./scripts/update_toc"
   },
   "author": "maxlath",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "description": "",
   "dependencies": {
     "add-to-systemd": "^1.2.0",

@@ -96,4 +96,4 @@ We are developing and maintaining tools to work with Wikidata from NodeJS, the b
 Do you know [inventaire.io](https://inventaire.io/)? It's a web app to share books with your friends, built on top of Wikidata! And its [libre software](http://github.com/inventaire/inventaire) too.
 
 ## License
-[MIT](LICENSE.md)
+AGPL-3.0
