@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -eu
-
-source ./scripts/lib/import_export_commons
-dump_endpoint="https://dumps.inventaire.io/inv/latest/elasticsearch_indexes"
-
-cd $dump_folder
-wget -c "${dump_endpoint}/${inv_entities_index}.gz"
-wget -c "${dump_endpoint}/${wd_entities_index}.gz"
