@@ -78,12 +78,16 @@ npm run delete-from-results $index $type $ids_json_array
 ### importing dumps
 You can import dumps from inventaire.io prod elasticsearch instance:
 ```sh
-mkdir -p dumps
-# Downloading Wikidata and Inventaire dumps
-# from https://dumps.inventaire.io/inv/latest/elasticsearch_indexes
-npm run download-remote-indexes
-# Loading them in your local elasticsearch
-npm run import-indexes
+# Download Wikidata dump
+wget -c https://dumps.inventaire.io/wd/elasticsearch/wikidata_data.json.gz
+gzip -d wikidata_data.json.gz
+# elasticdump should have been installed when running `npm install`
+./node_modules/.bin/elasticdump --input=./wikidata_data.json --output=http://localhost:9200/wikidata
+
+# Same for Inventaire
+wget -c https://dumps.inventaire.io/inv/elasticsearch/entities_data.json.gz
+gzip -d entities_data.json.gz
+./node_modules/.bin/elasticdump --input=./entities_data.json --output=http://localhost:9200/entities
 ```
 
 ## Query ElasticSearch

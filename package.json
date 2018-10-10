@@ -13,9 +13,7 @@
     "update-and-import-all": "npm run update-query-results all && npm run import-query-results all",
     "delete-from-results": "./scripts/delete_from_results",
     "update-toc": "./scripts/update_toc",
-    "export-indexes": "./scripts/export_indexes",
-    "download-remote-indexes": "./scripts/download_remote_indexes",
-    "import-indexes": "./scripts/import_indexes"
+    "export-indexes": "./scripts/export_indexes"
   },
   "author": "maxlath",
   "license": "AGPL-3.0",
