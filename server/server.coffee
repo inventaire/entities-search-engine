@@ -1,16 +1,13 @@
 #!/usr/bin/env coffee
-
-{ port } = require 'config'
-
 # Use Bluebird promises instead of native ones
 global.Promise = require 'bluebird'
+breq = require 'bluereq'
 _ = require '../lib/utils'
 CONFIG = require 'config'
-breq = require 'bluereq'
+{ port } = CONFIG
 { host:elasticHost, indexes } = CONFIG.elastic
-
-unless indexes.inventaire
-  throw new Error "Missing config indexes.inventaire"
+unless indexes.inventaire then throw new Error "Missing config indexes.inventaire"
+invIndexUri = "#{elasticHost}/#{indexes.inventaire}"
 
 setupElastic = ->
   breq.get elasticHost
@@ -26,24 +23,25 @@ start = ->
   app.listen port, -> _.info "server listening on port #{port}"
 
 ensureElasticInvIndex = ->
-  invIndexUri = "#{elasticHost}/#{indexes.inventaire}"
   breq.get invIndexUri
   .catch (err)->
-    unless err.statusMessage.includes 'Not Found'
-      throw err
-    createIndex(invIndexUri)
+    if err.statusCode is 404 then return createIndex invIndexUri
+    else throw err
 
 createIndex = (uri) ->
+  _.info "creating #{uri}"
   breq.put uri
   .catch (err)->
-    throw new Error "Failed to create #{elasticHost}/#{indexes.inventaire}"
+    _.error err, "failed to create #{invIndexUri}"
+    throw err
 
 waitForElastic = (err) ->
-  unless err.message.includes 'ECONNREFUSED'
-    throw err
+  unless err.message.includes 'ECONNREFUSED' then throw err
+  _.warn "waiting for ElasticSearch on #{elasticHost}"
   Promise.resolve()
   .delay 500
   .then setupElastic
 
 setupElastic()
 .then start
+.catch _.Error('init err')
