@@ -82,12 +82,13 @@ You can import dumps from inventaire.io prod elasticsearch instance:
 wget -c https://dumps.inventaire.io/wd/elasticsearch/wikidata_data.json.gz
 gzip -d wikidata_data.json.gz
 # elasticdump should have been installed when running `npm install`
-./node_modules/.bin/elasticdump --input=./wikidata_data.json --output=http://localhost:9200/wikidata
+# --limit: increasing batches size
+./node_modules/.bin/elasticdump --input=./wikidata_data.json --output=http://localhost:9200/wikidata --limit 2000
 
 # Same for Inventaire
 wget -c https://dumps.inventaire.io/inv/elasticsearch/entities_data.json.gz
 gzip -d entities_data.json.gz
-./node_modules/.bin/elasticdump --input=./entities_data.json --output=http://localhost:9200/entities
+./node_modules/.bin/elasticdump --input=./entities_data.json --output=http://localhost:9200/entities --limit 2000
 ```
 
 ## Query ElasticSearch
