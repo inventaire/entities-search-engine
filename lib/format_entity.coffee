@@ -5,8 +5,6 @@ getImagesFromClaims = require './get_images_from_claims'
 
 module.exports = (entity)->
   entity.id = getEntityId entity
-  # Deleting inv entities CouchDB documents ids
-  delete entity._id
 
   if wdk.isItemId entity.id
     # Only Wikidata entities need to be simplified: inv entities are already
@@ -16,6 +14,9 @@ module.exports = (entity)->
     entity.uri = 'wd:' + entity.id
   else
     needSimplification = false
+    entity.uri = 'inv:' + entity.id
+    # Deleting inv entities CouchDB documents ids
+    delete entity._id
 
   # Take images from claims if no images object was set by add_entities_images,
   # that is, for every entity types but works and series
