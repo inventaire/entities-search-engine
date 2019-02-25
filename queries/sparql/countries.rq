@@ -1,0 +1,3 @@
+SELECT DISTINCT ?countries WHERE {
+  ?countries wdt:P31 wd:Q6256 .
+}
