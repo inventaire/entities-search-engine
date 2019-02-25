@@ -14,6 +14,7 @@ module.exports =
     'publishers'
     'series'
     'collections'
+    'countries'
   ]
   inventaire:
     host: 'http://localhost:3006'
