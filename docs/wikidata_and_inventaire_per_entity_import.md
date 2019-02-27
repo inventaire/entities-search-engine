@@ -7,7 +7,7 @@ Customize the configuration by creation a `./config/local.coffee` file that will
 ```sh
 npm start
 ```
-Or, if you're on Linux, you can make it run as a [systemd](https://en.wikipedia.org/wiki/Systemd) process
+Or, if your system runs with [systemd](https://en.wikipedia.org/wiki/Systemd), you can run it as systemd process
 ```sh
 npm run add-to-systemd
 sudo systemctl restart entities-search-engine
