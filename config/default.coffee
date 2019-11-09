@@ -17,4 +17,4 @@ module.exports =
     'countries'
   ]
   inventaire:
-    host: 'http://localhost:3006'
+    host: 'https://inventaire.io'
