@@ -1,20 +1,25 @@
-#!/usr/bin/env coffee
+#!/usr/bin/env node
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
 
-# ex: ./scripts/results_diff ./queries/results/genres.2016-06-06T21-15.json ./queries/results/genres.json
+// ex: ./scripts/results_diff ./queries/results/genres.2016-06-06T21-15.json ./queries/results/genres.json
 
-[ pathA, pathB ] = process.argv.slice(2)
-_ = require 'lodash'
+const [ pathA, pathB ] = Array.from(process.argv.slice(2));
+const _ = require('lodash');
 
-path = require 'path'
+const path = require('path');
 
-a = require path.resolve(pathA)
-b = require path.resolve(pathB)
+const a = require(path.resolve(pathA));
+const b = require(path.resolve(pathB));
 
-console.log('a', a.length)
-console.log('b', b.length)
+console.log('a', a.length);
+console.log('b', b.length);
 
-aMinB = _.difference a, b
-bMinA = _.difference b, a
+const aMinB = _.difference(a, b);
+const bMinA = _.difference(b, a);
 
-console.log 'a without b', aMinB.length
-console.log 'b without a', bMinA.length
+console.log('a without b', aMinB.length);
+console.log('b without a', bMinA.length);

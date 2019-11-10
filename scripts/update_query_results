@@ -1,37 +1,44 @@
-#!/usr/bin/env coffee
-{ exec } = require 'child_process'
-callOneByOne = require './lib/call_one_by_one'
-wdsparql = "./node_modules/wikidata-cli/bin/wdsparql -s"
-sparqlFolder = './queries/sparql'
-types = require('./lib/types_parser')(sparqlFolder, 'rq')
-fs = require 'fs'
-_ = require '../lib/utils'
+#!/usr/bin/env node
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const { exec } = require('child_process');
+const callOneByOne = require('./lib/call_one_by_one');
+const wdsparql = "./node_modules/wikidata-cli/bin/wdsparql -s";
+const sparqlFolder = './queries/sparql';
+const types = require('./lib/types_parser')(sparqlFolder, 'rq');
+const fs = require('fs');
+const _ = require('../lib/utils');
 
-filePath = (type)-> "./queries/results/#{type}.json"
+const filePath = type => `./queries/results/${type}.json`;
 
-archive = (type)->
-  file = filePath type
-  try
-    { mtime } = fs.statSync file
-    timestamp = mtime.toISOString().replace(':', '-').split(':')[0]
-    renamed = file.replace '.json', ".#{timestamp}.json"
-    return "mv #{file} #{renamed}"
-  catch err
-    if err.code is 'ENOENT' then return "echo 'no file to archive'"
-    else throw err
+const archive = function(type){
+  const file = filePath(type);
+  try {
+    const { mtime } = fs.statSync(file);
+    const timestamp = mtime.toISOString().replace(':', '-').split(':')[0];
+    const renamed = file.replace('.json', `.${timestamp}.json`);
+    return `mv ${file} ${renamed}`;
+  } catch (err) {
+    if (err.code === 'ENOENT') { return "echo 'no file to archive'";
+    } else { throw err; }
+  }
+};
 
-update = (type)->
-  "#{wdsparql} #{sparqlFolder}/#{type}.rq > ./queries/results/#{type}.json"
+const update = type => `${wdsparql} ${sparqlFolder}/${type}.rq > ./queries/results/${type}.json`;
 
-makeQuery = (type)->
-  return new Promise (resolve, reject)->
-    updateCmd = "#{update(type)}"
-    _.info updateCmd, 'running'
-    cmd = "#{archive(type)} ; #{updateCmd}"
-    exec cmd, (err, res)->
-      if err then reject err
-      else resolve res
+const makeQuery = type => new Promise(function(resolve, reject){
+  const updateCmd = `${update(type)}`;
+  _.info(updateCmd, 'running');
+  const cmd = `${archive(type)} ; ${updateCmd}`;
+  return exec(cmd, function(err, res){
+    if (err) { return reject(err);
+    } else { return resolve(res); }
+  });
+});
 
-callOneByOne types, 'query update', makeQuery
-.then -> _.success types, 'query updates done'
-.catch (err)-> _.error [ types, err ], 'query updates err'
+callOneByOne(types, 'query update', makeQuery)
+.then(() => _.success(types, 'query updates done'))
+.catch(err => _.error([ types, err ], 'query updates err'));

@@ -1,19 +1,25 @@
-#!/usr/bin/env coffee
-# Use Bluebird promises instead of native ones
-global.Promise = require 'bluebird'
-breq = require 'bluereq'
-_ = require '../lib/utils'
-{ port } = require 'config'
-setupElasticSearch = require '../lib/setup_elasticsearch'
+#!/usr/bin/env node
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+// Use Bluebird promises instead of native ones
+global.Promise = require('bluebird');
+const breq = require('bluereq');
+const _ = require('../lib/utils');
+const { port } = require('config');
+const setupElasticSearch = require('../lib/setup_elasticsearch');
 
-start = ->
-  app = require('express')()
-  bodyParser = require 'body-parser'
-  app.use bodyParser.json()
-  app.use bodyParser.urlencoded({ extended: true })
-  app.post '/', require('./post')
-  app.listen port, -> _.info "server listening on port #{port}"
+const start = function() {
+  const app = require('express')();
+  const bodyParser = require('body-parser');
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.post('/', require('./post'));
+  return app.listen(port, () => _.info(`server listening on port ${port}`));
+};
 
 setupElasticSearch()
-.then start
-.catch _.Error('init err')
+.then(start)
+.catch(_.Error('init err'));

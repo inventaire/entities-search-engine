@@ -1,6 +1,10 @@
-module.exports =
-  elastic:
-    indexes:
+module.exports = {
+  elastic: {
+    indexes: {
       inventaire: 'entities-prod'
-  inventaire:
+    }
+  },
+  inventaire: {
     host: 'https://inventaire.io'
+  }
+};

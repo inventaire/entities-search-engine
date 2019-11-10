@@ -1,7 +1,11 @@
-module.exports =
-  port: 3214
-  elastic:
-    indexes:
+module.exports = {
+  port: 3214,
+  elastic: {
+    indexes: {
       inventaire: 'entities-tests'
-  inventaire:
+    }
+  },
+  inventaire: {
     host: 'http://localhost:3009'
+  }
+};

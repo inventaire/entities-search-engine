@@ -1,47 +1,57 @@
-{ host: elasticHost } = require('config').elastic
-breq = require 'bluereq'
-bulk = require '../lib/bulk'
-_ = require '../lib/utils'
-buildLine = bulk.buildLine.bind null, 'index'
-index = 'fixtures'
-type = 'foo'
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const { host: elasticHost } = require('config').elastic;
+const breq = require('bluereq');
+const bulk = require('../lib/bulk');
+const _ = require('../lib/utils');
+const buildLine = bulk.buildLine.bind(null, 'index');
+const index = 'fixtures';
+const type = 'foo';
 
-getDocs = -> [
-  { _id: '1', text: '1' }
-  { _id: '2', text: '2' }
-  { _id: '3', text: '3' }
+const getDocs = () => [
+  { _id: '1', text: '1' },
+  { _id: '2', text: '2' },
+  { _id: '3', text: '3' },
   { _id: '4', text: '4' }
-]
+];
 
-module.exports =
-  reset: ->
-    deleteIndex index
-    .delay 100
-    .then createIndex
-    .delay 100
-    .then postDocs
-    .delay 100
-    .catch _.Error('init fixtures err')
+module.exports = {
+  reset() {
+    return deleteIndex(index)
+    .delay(100)
+    .then(createIndex)
+    .delay(100)
+    .then(postDocs)
+    .delay(100)
+    .catch(_.Error('init fixtures err'));
+  },
 
-  getById: (id)->
-    breq.get "#{elasticHost}/#{index}/#{type}/#{id}"
-    .get 'body'
+  getById(id){
+    return breq.get(`${elasticHost}/${index}/${type}/${id}`)
+    .get('body');
+  }
+};
 
-createIndex = -> breq.post "#{elasticHost}/#{index}"
-deleteIndex = ->
-  breq.delete "#{elasticHost}/#{index}"
-  .catch (err)->
-    if err.statusCode is 404 then return
-    throw err
+var createIndex = () => breq.post(`${elasticHost}/${index}`);
+var deleteIndex = () => breq.delete(`${elasticHost}/${index}`)
+.catch(function(err){
+  if (err.statusCode === 404) { return; }
+  throw err;
+});
 
-postDocs = ->
-  batch = []
-  getDocs().forEach addToBatch(batch)
-  bulk.postBatch batch
-  .then bulk.logRes('fixtures bulk')
+var postDocs = function() {
+  const batch = [];
+  getDocs().forEach(addToBatch(batch));
+  return bulk.postBatch(batch)
+  .then(bulk.logRes('fixtures bulk'));
+};
 
-addToBatch = (batch)-> (doc)->
-  batch.push buildLine(index, type, doc._id)
-  # Should not be included in the doc hereafter
-  delete doc._id
-  batch.push JSON.stringify(doc)
+var addToBatch = batch => (function(doc) {
+  batch.push(buildLine(index, type, doc._id));
+  // Should not be included in the doc hereafter
+  delete doc._id;
+  return batch.push(JSON.stringify(doc));
+});
