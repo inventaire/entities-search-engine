@@ -4,6 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "export NODE_ENV=tests; mocha --compilers coffee:coffee-script/register test/*.test.coffee",
+    "lint": "standardx --verbose",
+    "lint-fix": "standardx --verbose --fix",
     "postinstall": "./scripts/postinstall",
     "start": "coffee server/server.coffee",
     "watch": "supervisor -w . server/server.coffee",
@@ -41,6 +43,7 @@
     "elasticdump": "^2.4.2",
     "mocha": "^3.1.2",
     "should": "^13.2.1",
+    "standardx": "^5.0.0",
     "supervisor": "^0.12.0"
   }
 }
