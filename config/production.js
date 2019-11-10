@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 module.exports = {
   elastic: {
     indexes: {
@@ -7,4 +9,4 @@ module.exports = {
   inventaire: {
     host: 'https://inventaire.io'
   }
-};
+}

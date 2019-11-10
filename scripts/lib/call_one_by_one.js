@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -8,18 +10,18 @@
  * @param  {String}
  * @param  {Function} with signature (type, callback)->
 */
-const _ = require('../../lib/utils');
+const _ = require('../../lib/utils')
 
-module.exports = function(types, label, fn){
+module.exports = function (types, label, fn) {
   // Cloning types to keep the initial object intact
-  types = types.slice();
-  var executeNext = function() {
-    const type = types.shift();
-    _.info(type, `${label} starting`);
+  types = types.slice()
+  var executeNext = function () {
+    const type = types.shift()
+    _.info(type, `${label} starting`)
 
     return fn(type)
-    .then(function() { if (types.length > 0) { return executeNext(); } });
-  };
+    .then(() => { if (types.length > 0) { return executeNext() } })
+  }
 
-  return executeNext();
-};
+  return executeNext()
+}

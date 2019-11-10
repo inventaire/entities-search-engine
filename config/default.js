@@ -1,3 +1,5 @@
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
 module.exports = {
   port: 3213,
   elastic: {
@@ -21,4 +23,4 @@ module.exports = {
   inventaire: {
     host: 'https://inventaire.io'
   }
-};
+}

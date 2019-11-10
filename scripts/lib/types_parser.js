@@ -1,26 +1,28 @@
-const fs = require('fs');
-let types = process.argv.slice(2);
+// TODO: This file was created by bulk-decaffeinate.
+// Sanity-check the conversion and remove this comment.
+const fs = require('fs')
+let types = process.argv.slice(2)
 
-module.exports = function(folder, extension){
-  const re = new RegExp(`.${extension}$`);
+module.exports = function (folder, extension) {
+  const re = new RegExp(`.${extension}$`)
   const availableTypes = fs.readdirSync(folder)
     // filter-out archives names on the pattern genres.2016-06-10T08-26.json
     .filter(filename => filename.split('.').length === 2)
-    .map(filename => filename.replace(re, ''));
+    .map(filename => filename.replace(re, ''))
 
   if (types.length === 0) {
-    throw new Error("missing type argument");
+    throw new Error('missing type argument')
   }
 
   if (types[0] === 'all') {
-    types = availableTypes;
+    types = availableTypes
   } else {
-    types.forEach(function(type){
+    types.forEach(type => {
       if (!availableTypes.includes(type)) {
-        throw new Error(`missing ${extension} file for type ${type}`);
+        throw new Error(`missing ${extension} file for type ${type}`)
       }
-    });
+    })
   }
 
-  return types;
-};
+  return types
+}

@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/* eslint-disable
+    no-unused-vars,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 /*
  * decaffeinate suggestions:
  * DS101: Remove unnecessary use of Array.from
@@ -8,30 +13,30 @@
 
 // Pass the path of a results json file, supposedly made of an array of ids:
 // all those ids documents will be deleted
-const [ index, type, resultPath ] = Array.from(process.argv.slice(2));
-const { host:elasticHost, indexes } = require('config').elastic;
+const [ index, type, resultPath ] = Array.from(process.argv.slice(2))
+const { host: elasticHost, indexes } = require('config').elastic
 
-const path = require('path');
-const ids = require(path.resolve(resultPath));
-const breq = require('bluereq');
-const _ = require('../lib/utils');
-const unindex = require('../lib/unindex');
+const path = require('path')
+const ids = require(path.resolve(resultPath))
+const breq = require('bluereq')
+const _ = require('../lib/utils')
+const unindex = require('../lib/unindex')
 
-_.info(ids.length, 'ids total');
+_.info(ids.length, 'ids total')
 
-var deleteNextBulk = function() {
-  _.info(ids.length, 'remaining');
+var deleteNextBulk = function () {
+  _.info(ids.length, 'remaining')
 
-  const idsBatch = ids.splice(0, 1000);
+  const idsBatch = ids.splice(0, 1000)
 
   if (idsBatch.length === 0) {
-    _.success('done');
-    return;
+    _.success('done')
+    return
   }
 
   return unindex(index, type, idsBatch)
   .delay(200)
-  .then(deleteNextBulk);
-};
+  .then(deleteNextBulk)
+}
 
-deleteNextBulk();
+deleteNextBulk()
