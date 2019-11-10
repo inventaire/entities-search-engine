@@ -1,30 +1,15 @@
 #!/usr/bin/env node
-/* eslint-disable
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-
 // Pass the path of a results json file, supposedly made of an array of ids:
 // all those ids documents will be deleted
-const [ index, type, resultPath ] = Array.from(process.argv.slice(2))
-const { host: elasticHost, indexes } = require('config').elastic
-
+const [ index, type, resultPath ] = process.argv.slice(2)
 const path = require('path')
 const ids = require(path.resolve(resultPath))
-const breq = require('bluereq')
 const _ = require('../lib/utils')
 const unindex = require('../lib/unindex')
 
 _.info(ids.length, 'ids total')
 
-var deleteNextBulk = function () {
+const deleteNextBulk = () => {
   _.info(ids.length, 'remaining')
 
   const idsBatch = ids.splice(0, 1000)

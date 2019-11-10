@@ -1,15 +1,8 @@
 #!/usr/bin/env node
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 
 // ex: ./scripts/results_diff ./queries/results/genres.2016-06-06T21-15.json ./queries/results/genres.json
 
-const [ pathA, pathB ] = Array.from(process.argv.slice(2))
+const [ pathA, pathB ] = process.argv.slice(2)
 const _ = require('lodash')
 
 const path = require('path')

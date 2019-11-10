@@ -1,9 +1,7 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const fs = require('fs')
 let types = process.argv.slice(2)
 
-module.exports = function (folder, extension) {
+module.exports = (folder, extension) => {
   const re = new RegExp(`.${extension}$`)
   const availableTypes = fs.readdirSync(folder)
     // filter-out archives names on the pattern genres.2016-06-10T08-26.json

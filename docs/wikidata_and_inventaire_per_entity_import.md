@@ -1,7 +1,7 @@
 ## Wikidata and Inventaire per-entity import
 
 ### Customize
-Customize the configuration by creation a `./config/local.coffee` file that will override `./config/default.coffee` values.
+Customize the configuration by creation a `./config/local.js` file that will override `./config/default.js` values.
 
 ### Start the server
 ```sh
