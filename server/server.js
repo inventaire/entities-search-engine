@@ -4,16 +4,19 @@ global.Promise = require('bluebird')
 const _ = require('../lib/utils')
 const { port } = require('config')
 const setupElasticSearch = require('../lib/setup_elasticsearch')
-
-const start = () => {
-  const app = require('express')()
-  const bodyParser = require('body-parser')
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: true }))
-  app.post('/', require('./post'))
-  app.listen(port, () => _.info(`server listening on port ${port}`))
-}
+const bodyParser = require('body-parser')
+const express = require('express')
 
 setupElasticSearch()
-.then(start)
+.then(() => {
+  const app = express()
+
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
+
+  app.get('/', (req, res) => res.json({ hello: true }))
+  app.post('/', require('./post'))
+
+  app.listen(port, () => _.info(`server listening on port ${port}`))
+})
 .catch(_.Error('init err'))
