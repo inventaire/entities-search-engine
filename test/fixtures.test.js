@@ -1,8 +1,6 @@
 require('should')
 const Promise = require('bluebird')
 const { reset: resetFixtures, getById } = require('./fixtures')
-const getIdsByTypes = require('../lib/get_ids_by_types')
-const _ = require('../lib/utils')
 
 describe('fixtures', () => {
   it('should create fixtures', done => {

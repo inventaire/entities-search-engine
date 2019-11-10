@@ -33,8 +33,7 @@ module.exports = {
 var createIndex = () => breq.post(`${elasticHost}/${index}`)
 var deleteIndex = () => breq.delete(`${elasticHost}/${index}`)
 .catch(err => {
-  if (err.statusCode === 404) return
-  else throw err
+  if (err.statusCode !== 404) throw err
 })
 
 var postDocs = () => {
