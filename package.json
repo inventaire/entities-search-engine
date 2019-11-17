@@ -19,7 +19,7 @@
   },
   "author": "maxlath",
   "license": "AGPL-3.0",
-  "description": "",
+  "description": "Scripts and microservice to feed an ElasticSearch with Wikidata and Inventaire entities",
   "dependencies": {
     "add-to-systemd": "^1.2.0",
     "bluebird": "^3.5.0",
@@ -54,5 +54,19 @@
       "describe",
       "beforeEach"
     ]
-  }
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inventaire/entities-search-engine.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/inventaire/entities-search-engine/issues"
+  },
+  "homepage": "https://github.com/inventaire/entities-search-engine#readme"
 }
