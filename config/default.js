@@ -19,6 +19,6 @@ module.exports = {
     'countries'
   ],
   inventaire: {
-    host: 'https://inventaire.io'
+    host: 'http://localhost:3006'
   }
 }
