@@ -2,7 +2,7 @@
 // Use Bluebird promises instead of native ones
 global.Promise = require('bluebird')
 const _ = require('../lib/utils')
-const { port } = require('config')
+const { port, inventaire } = require('config')
 const setupElasticSearch = require('../lib/setup_elasticsearch')
 const bodyParser = require('body-parser')
 const express = require('express')
@@ -17,6 +17,9 @@ setupElasticSearch()
   app.get('/', (req, res) => res.json({ hello: true }))
   app.post('/', require('./post'))
 
-  app.listen(port, () => _.info(`server listening on port ${port}`))
+  app.listen(port, () => {
+    _.info(`server listening on port ${port}`)
+    _.info(`fetching data from ${inventaire.host}`)
+  })
 })
 .catch(_.Error('init err'))
