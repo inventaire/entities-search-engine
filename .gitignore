@@ -1,6 +1,7 @@
 queries/results
 node_modules
-config/local.coffee
+config/local.js
 server/logs
 dumps
+*.original*
 

@@ -3,44 +3,70 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "export NODE_ENV=tests; mocha --compilers coffee:coffee-script/register test/*.test.coffee",
-    "postinstall": "./scripts/postinstall",
-    "start": "coffee server/server.coffee",
-    "watch": "supervisor -w . server/server.coffee",
-    "add-to-systemd": "./scripts/add_to_systemd",
-    "update-query-results": "coffee ./scripts/update_query_results",
-    "import-query-results": "coffee ./scripts/import_query_results",
+    "test": "export NODE_ENV=tests; mocha test/*.test.js",
+    "lint": "standardx --verbose",
+    "lint-fix": "standardx --verbose --fix",
+    "postinstall": "./scripts/postinstall.sh",
+    "start": "node server/server.js",
+    "watch": "supervisor -w . server/server.js",
+    "add-to-systemd": "./scripts/add_to_systemd.sh",
+    "update-query-results": "./scripts/update_query_results.js",
+    "import-query-results": "./scripts/import_query_results.js",
     "update-and-import-all": "npm run update-query-results all && npm run import-query-results all",
-    "delete-from-results": "./scripts/delete_from_results",
-    "update-toc": "./scripts/update_toc",
-    "export-indexes": "./scripts/export_indexes"
+    "delete-from-results": "./scripts/delete_from_results.js",
+    "update-toc": "./scripts/update_toc.sh",
+    "export-indexes": "./scripts/export_indexes.sh"
   },
   "author": "maxlath",
   "license": "AGPL-3.0",
-  "description": "",
+  "description": "Scripts and microservice to feed an ElasticSearch with Wikidata and Inventaire entities",
   "dependencies": {
     "add-to-systemd": "^1.2.0",
     "bluebird": "^3.5.0",
     "bluereq": "^2.1.5",
     "body-parser": "^1.15.1",
-    "coffee-script": "^1.10.0",
     "config": "^1.20.1",
-    "couch-view-by-keys": "^1.0.3",
+    "couch-view-by-keys": "^1.0.6",
     "express": "^4.13.4",
     "inv-loggers": "^3.3.1",
     "lodash": "^4.17.4",
     "request": "^2.72.0",
     "split": "^1.0.0",
     "start-from": "^1.0.0",
-    "wikidata-cli": "^1.3.1",
-    "wikidata-filter": "^2.0.4",
-    "wikidata-sdk": "^5.1.4"
+    "wikibase-cli": "^8.1.0",
+    "wikidata-filter": "^3.0.2",
+    "wikidata-sdk": "^7.0.7"
   },
   "devDependencies": {
     "doctoc": "^1.2.0",
     "elasticdump": "^2.4.2",
     "mocha": "^3.1.2",
     "should": "^13.2.1",
+    "standardx": "^5.0.0",
     "supervisor": "^0.12.0"
-  }
+  },
+  "standardx": {
+    "ignore": [
+      "dist"
+    ],
+    "globals": [
+      "it",
+      "describe",
+      "beforeEach"
+    ]
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inventaire/entities-search-engine.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/inventaire/entities-search-engine/issues"
+  },
+  "homepage": "https://github.com/inventaire/entities-search-engine#readme"
 }

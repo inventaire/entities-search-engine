@@ -1,2 +1,0 @@
-#!/usr/bin/env sh
-mkdir -p queries/sparql queries/results server/logs

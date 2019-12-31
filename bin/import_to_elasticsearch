@@ -1,5 +1,2 @@
-#!/usr/bin/env sh
-# Simply specifying where to find the coffee executable
-# without relying on a global installed coffee-script
-# Then passing all the arguments
-./node_modules/coffee-script/bin/coffee ./lib/import.coffee $@
+#!/usr/bin/env bash
+node ./lib/import.js "$@"
