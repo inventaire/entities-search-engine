@@ -33,9 +33,9 @@
     "request": "^2.72.0",
     "split": "^1.0.0",
     "start-from": "^1.0.0",
-    "wikibase-cli": "^8.1.0",
+    "wikibase-cli": "^9.0.0",
     "wikidata-filter": "^3.0.2",
-    "wikidata-sdk": "^7.0.7"
+    "wikidata-sdk": "^7.2.0"
   },
   "devDependencies": {
     "doctoc": "^1.2.0",
