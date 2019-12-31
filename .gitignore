@@ -1,6 +1,6 @@
 queries/results
 node_modules
-config/local.js
+config/local*.js
 server/logs
 dumps
 *.original*

@@ -36,5 +36,5 @@ cat wikidata-dump.json.gz | gzip -d | wdfilter --claim P31:Q571 --omit type,site
 If importing a dump fails at some point, rather than re-starting from 0, you can use the [`start-from`](https://github.com/maxlath/start-from) command to restart from the latest known line.
 Example:
 ```sh
-cat wikidata-dump.json.gz | gzip -d | ./node_modules/.bin/start-from '"Q27999075"' | ./node_modules/.bin/wikidata-filter --claim P31:Q5 --omit type,sitelinks | ./bin/import_to_elasticsearch humans
+cat wikidata-dump.json.gz | gzip -d | start-from '"Q27999075"' | ./node_modules/.bin/wikidata-filter --claim P31:Q5 --omit type,sitelinks | ./bin/import_to_elasticsearch humans
 ```
