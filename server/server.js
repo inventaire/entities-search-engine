@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-// Use Bluebird promises instead of native ones
-global.Promise = require('bluebird')
 const logger = require('../lib/logger')
 const { port, inventaire } = require('config')
 const setupElasticSearch = require('../lib/setup_elasticsearch')

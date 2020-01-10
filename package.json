@@ -22,7 +22,6 @@
   "description": "Scripts and microservice to feed an ElasticSearch with Wikidata and Inventaire entities",
   "dependencies": {
     "add-to-systemd": "^1.2.0",
-    "bluebird": "^3.5.0",
     "body-parser": "^1.15.1",
     "config": "^1.20.1",
     "couch-view-by-keys": "^1.0.7",
