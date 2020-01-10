@@ -7,7 +7,7 @@ module.exports = (types, label, fn) => {
     const type = types.shift()
     if (!type) return
 
-    logger.info(type, `${label} starting`)
+    logger.info(`${label} starting`, type)
 
     return fn(type)
     .then(executeNext)

@@ -36,8 +36,8 @@ var passNonWhitelisted = err => {
 
 var sendError = res => err => {
   const statusCode = err.statusCode || 500
-  const color = statusCode < 500 ? 'yellow' : 'red'
-  logger.log(err, 'post err', color)
+  if (statusCode >= 500) logger.error('post err', err)
+  else logger.warn('post err', err)
   const { message, context } = err
   res.status(statusCode).send({ status_verbose: message, context })
 }

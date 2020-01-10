@@ -26,7 +26,7 @@ const update = type => `${wdCommand} sparql ${sparqlFolder}/${type}.rq --json > 
 
 const makeQuery = type => new Promise((resolve, reject) => {
   const updateCmd = `${update(type)}`
-  logger.info(updateCmd, 'running')
+  logger.info('running', updateCmd)
   const cmd = `${archive(type)} ; ${updateCmd}`
   return exec(cmd, (err, res) => {
     if (err) return reject(err)
@@ -35,5 +35,5 @@ const makeQuery = type => new Promise((resolve, reject) => {
 })
 
 callOneByOne(types, 'query update', makeQuery)
-.then(() => logger.success(types, 'query updates done'))
-.catch(err => logger.error([ types, err ], 'query updates err'))
+.then(() => logger.success('query updates done', types))
+.catch(logger.ErrorRethrow(`query updates err (type: ${types})`))

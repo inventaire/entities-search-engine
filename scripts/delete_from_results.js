@@ -8,10 +8,10 @@ const logger = require('../lib/logger')
 const { wait } = require('../lib/utils')
 const unindex = require('../lib/unindex')
 
-logger.info(ids.length, 'ids total')
+logger.info('ids total', ids.length)
 
 const deleteNextBulk = () => {
-  logger.info(ids.length, 'remaining')
+  logger.info('remaining', ids.length)
 
   const idsBatch = ids.splice(0, 1000)
 

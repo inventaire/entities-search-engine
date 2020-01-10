@@ -16,13 +16,10 @@ const importEntities = type => {
     .map(id => `wd:${id}`)
 
   return fetchAndPutEntitiesFromUris(type, uris)
-  .then(() => logger.success(type, 'done'))
-  .catch(err => {
-    logger.error([ err, type ], 'failed')
-    throw err
-  })
+  .then(() => logger.success('done', type))
+  .catch(logger.ErrorRethrow(`importEntities err (type: ${type})`))
 }
 
 callOneByOne(types, 'import', importEntities)
 .then(() => logger.success(types, 'imports done'))
-.catch(err => logger.error([ err, types ], 'imports err'))
+.catch(logger.ErrorRethrow(`imports err (types: ${types})`))
