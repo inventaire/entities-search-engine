@@ -9,8 +9,8 @@ setupElasticSearch()
 .then(() => {
   const app = express()
 
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: true }))
+  // Always consider that the input is JSON, whatever the request headers say
+  app.use(bodyParser.json({ type: '*/*'}))
 
   app.get('/', (req, res) => res.json({ hello: true }))
   app.post('/', require('./post'))
