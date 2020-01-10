@@ -4,7 +4,7 @@
 //    depending on the URI domain
 
 const fetchAndPutEntitiesFromUris = require('../lib/fetch_and_put_entities_from_uris')
-const _ = require('../lib/utils')
+const logger = require('../lib/logger')
 
 module.exports = (req, res) => {
   const urisPerType = req.body
@@ -37,7 +37,7 @@ var passNonWhitelisted = err => {
 var sendError = res => err => {
   const statusCode = err.statusCode || 500
   const color = statusCode < 500 ? 'yellow' : 'red'
-  _.log(err, 'post err', color)
+  logger.log(err, 'post err', color)
   const { message, context } = err
   res.status(statusCode).send({ status_verbose: message, context })
 }

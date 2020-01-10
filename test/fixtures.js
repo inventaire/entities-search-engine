@@ -1,7 +1,8 @@
 const { host: elasticHost } = require('config').elastic
-const breq = require('bluereq')
+const request = require('../lib/request')
 const bulk = require('../lib/bulk')
-const _ = require('../lib/utils')
+const logger = require('../lib/logger')
+const { wait } = require('../lib/utils')
 const buildLine = bulk.buildLine.bind(null, 'index')
 const index = 'fixtures'
 const type = 'foo'
@@ -16,25 +17,28 @@ const getDocs = () => [
 module.exports = {
   reset: () => {
     return deleteIndex(index)
-    .delay(100)
+    .then(() => wait(100))
     .then(createIndex)
-    .delay(100)
+    .then(() => wait(100))
     .then(postDocs)
-    .delay(100)
-    .catch(_.Error('init fixtures err'))
+    .then(() => wait(100))
+    .catch(logger.Error('init fixtures err'))
   },
 
   getById: id => {
-    return breq.get(`${elasticHost}/${index}/${type}/${id}`)
-    .get('body')
+    return request.get(`${elasticHost}/${index}/${type}/${id}`)
+    .then(res => res.json())
   }
 }
 
-var createIndex = () => breq.post(`${elasticHost}/${index}`)
-var deleteIndex = () => breq.delete(`${elasticHost}/${index}`)
-.catch(err => {
-  if (err.statusCode !== 404) throw err
-})
+var createIndex = () => request.post({ url: `${elasticHost}/${index}` })
+
+var deleteIndex = () => {
+  return request.delete({ url: `${elasticHost}/${index}` })
+  .catch(err => {
+    if (err.statusCode !== 404) throw err
+  })
+}
 
 var postDocs = () => {
   const batch = []

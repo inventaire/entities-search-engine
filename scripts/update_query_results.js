@@ -5,7 +5,7 @@ const wdCommand = './node_modules/.bin/wd'
 const sparqlFolder = './queries/sparql'
 const types = require('./lib/types_parser')(sparqlFolder, 'rq')
 const fs = require('fs')
-const _ = require('../lib/utils')
+const logger = require('../lib/logger')
 
 const filePath = type => `./queries/results/${type}.json`
 
@@ -26,7 +26,7 @@ const update = type => `${wdCommand} sparql ${sparqlFolder}/${type}.rq --json > 
 
 const makeQuery = type => new Promise((resolve, reject) => {
   const updateCmd = `${update(type)}`
-  _.info(updateCmd, 'running')
+  logger.info(updateCmd, 'running')
   const cmd = `${archive(type)} ; ${updateCmd}`
   return exec(cmd, (err, res) => {
     if (err) return reject(err)
@@ -35,5 +35,5 @@ const makeQuery = type => new Promise((resolve, reject) => {
 })
 
 callOneByOne(types, 'query update', makeQuery)
-.then(() => _.success(types, 'query updates done'))
-.catch(err => _.error([ types, err ], 'query updates err'))
+.then(() => logger.success(types, 'query updates done'))
+.catch(err => logger.error([ types, err ], 'query updates err'))

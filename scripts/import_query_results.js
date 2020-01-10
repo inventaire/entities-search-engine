@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const resultsFolder = './queries/results'
 const wdk = require('wikidata-sdk')
-const _ = require('../lib/utils')
+const logger = require('../lib/logger')
 
 const types = require('./lib/types_parser')(resultsFolder, 'json')
 const callOneByOne = require('./lib/call_one_by_one')
@@ -16,13 +16,13 @@ const importEntities = type => {
     .map(id => `wd:${id}`)
 
   return fetchAndPutEntitiesFromUris(type, uris)
-  .then(() => _.success(type, 'done'))
+  .then(() => logger.success(type, 'done'))
   .catch(err => {
-    _.error([ err, type ], 'failed')
+    logger.error([ err, type ], 'failed')
     throw err
   })
 }
 
 callOneByOne(types, 'import', importEntities)
-.then(() => _.success(types, 'imports done'))
-.catch(err => _.error([ err, types ], 'imports err'))
+.then(() => logger.success(types, 'imports done'))
+.catch(err => logger.error([ err, types ], 'imports err'))

@@ -4,23 +4,24 @@
 const [ index, type, resultPath ] = process.argv.slice(2)
 const path = require('path')
 const ids = require(path.resolve(resultPath))
-const _ = require('../lib/utils')
+const logger = require('../lib/logger')
+const { wait } = require('../lib/utils')
 const unindex = require('../lib/unindex')
 
-_.info(ids.length, 'ids total')
+logger.info(ids.length, 'ids total')
 
 const deleteNextBulk = () => {
-  _.info(ids.length, 'remaining')
+  logger.info(ids.length, 'remaining')
 
   const idsBatch = ids.splice(0, 1000)
 
   if (idsBatch.length === 0) {
-    _.success('done')
+    logger.success('done')
     return
   }
 
   return unindex(index, type, idsBatch)
-  .delay(200)
+  .then(() => wait(200))
   .then(deleteNextBulk)
 }
 

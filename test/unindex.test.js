@@ -14,7 +14,8 @@ describe('unindex', () => {
       err.body._id.should.equal('1')
       err.statusCode.should.equal(404)
       done()
-    }).catch(done)
+    })
+    .catch(done)
   })
 
   it('should unindex a doc without a type', done => {
@@ -26,7 +27,8 @@ describe('unindex', () => {
       err.body._id.should.equal('3')
       err.statusCode.should.equal(404)
       done()
-    }).catch(done)
+    })
+    .catch(done)
   })
 
   it('should unindex a doc with a type _all', done => {
@@ -38,6 +40,7 @@ describe('unindex', () => {
       err.body._id.should.equal('2')
       err.statusCode.should.equal(404)
       done()
-    }).catch(done)
+    })
+    .catch(done)
   })
 })
