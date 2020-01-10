@@ -11,7 +11,7 @@ describe('unindex', () => {
     .then(() => getById('1'))
     .then(undesiredRes(done))
     .catch(err => {
-      err.body._id.should.equal('1')
+      err.context.responseData._id.should.equal('1')
       err.statusCode.should.equal(404)
       done()
     })
@@ -24,7 +24,7 @@ describe('unindex', () => {
     .then(() => getById('3'))
     .then(undesiredRes(done))
     .catch(err => {
-      err.body._id.should.equal('3')
+      err.context.responseData._id.should.equal('3')
       err.statusCode.should.equal(404)
       done()
     })
@@ -37,7 +37,7 @@ describe('unindex', () => {
     .then(() => getById('2'))
     .then(undesiredRes(done))
     .catch(err => {
-      err.body._id.should.equal('2')
+      err.context.responseData._id.should.equal('2')
       err.statusCode.should.equal(404)
       done()
     })

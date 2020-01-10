@@ -9,6 +9,6 @@ module.exports = {
 
   undesiredErr: done => err => {
     done(err)
-    logger.warn('undesired err body', err.body || err)
+    logger.warn('undesired err body', err.context.responseData || err)
   }
 }
