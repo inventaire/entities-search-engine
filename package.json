@@ -35,10 +35,10 @@
     "wikidata-sdk": "^7.2.0"
   },
   "devDependencies": {
-    "doctoc": "^1.2.0",
+    "doctoc": "^1.4.0",
     "elasticdump": "^2.4.2",
-    "mocha": "^3.1.2",
-    "should": "^13.2.1",
+    "mocha": "^7.0.0",
+    "should": "^13.2.3",
     "standardx": "^5.0.0",
     "supervisor": "^0.12.0"
   },
