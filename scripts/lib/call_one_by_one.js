@@ -3,7 +3,7 @@ const logger = require('../../lib/utils')
 module.exports = (types, label, fn) => {
   // Cloning types to keep the initial object intact
   types = types.slice()
-  const executeNext = function () {
+  const executeNext = () => {
     const type = types.shift()
     if (!type) return
 

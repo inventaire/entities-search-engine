@@ -31,23 +31,23 @@ module.exports = {
   }
 }
 
-var createIndex = () => request.post({ url: `${elasticHost}/${index}` })
+const createIndex = () => request.post({ url: `${elasticHost}/${index}` })
 
-var deleteIndex = () => {
+const deleteIndex = () => {
   return request.delete({ url: `${elasticHost}/${index}` })
   .catch(err => {
     if (err.statusCode !== 404) throw err
   })
 }
 
-var postDocs = () => {
+const postDocs = () => {
   const batch = []
   getDocs().forEach(addToBatch(batch))
   return bulk.postBatch(batch)
   .then(bulk.logRes('fixtures bulk'))
 }
 
-var addToBatch = batch => doc => {
+const addToBatch = batch => doc => {
   batch.push(buildLine(index, type, doc._id))
   // Should not be included in the doc hereafter
   delete doc._id

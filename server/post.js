@@ -8,13 +8,14 @@ const logger = require('../lib/logger')
 
 module.exports = (req, res) => {
   const urisPerType = req.body
+  console.log('urisPerType', urisPerType)
 
   return getTypesPromises(urisPerType)
   .then(() => res.json({ ok: true }))
   .catch(sendError(res))
 }
 
-var getTypesPromises = urisPerType => {
+const getTypesPromises = urisPerType => {
   const promises = []
   for (const type in urisPerType) {
     const uris = urisPerType[type]
@@ -30,11 +31,11 @@ var getTypesPromises = urisPerType => {
   return Promise.all(promises)
 }
 
-var passNonWhitelisted = err => {
+const passNonWhitelisted = err => {
   if (err.message !== 'non whitelisted type') throw err
 }
 
-var sendError = res => err => {
+const sendError = res => err => {
   const statusCode = err.statusCode || 500
   if (statusCode >= 500) logger.error('post err', err)
   else logger.warn('post err', err)
