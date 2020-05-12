@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 wdfilter=./node_modules/.bin/wikidata-filter
 import_to_elastic=./bin/import_to_elasticsearch
