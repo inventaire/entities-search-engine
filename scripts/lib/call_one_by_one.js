@@ -1,4 +1,4 @@
-const logger = require('../../lib/utils')
+const logger = require('../../lib/logger')
 
 module.exports = (types, label, fn) => {
   // Cloning types to keep the initial object intact
