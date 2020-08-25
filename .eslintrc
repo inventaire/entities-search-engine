@@ -4,6 +4,9 @@
 // See package.json scripts: lint, lint-fix
 // Rules documentation: https://eslint.org/docs/rules/
 {
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "rules": {
     "array-bracket-spacing": [ "error", "always" ],
     "arrow-parens": [ "error", "as-needed" ],
