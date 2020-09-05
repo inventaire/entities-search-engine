@@ -24,15 +24,15 @@ const getTypesPromises = urisPerType => {
     }
 
     if (uris.length > 0) {
-      promises.push(fetchAndPutEntitiesFromUris(type, uris).catch(passNonWhitelisted))
+      promises.push(fetchAndPutEntitiesFromUris(type, uris).catch(passNonAllowlisted))
     }
   }
 
   return Promise.all(promises)
 }
 
-const passNonWhitelisted = err => {
-  if (err.message !== 'non whitelisted type') throw err
+const passNonAllowlisted = err => {
+  if (err.message !== 'non allowlisted type') throw err
 }
 
 const sendError = res => err => {
