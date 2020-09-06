@@ -4,7 +4,7 @@
 
 * Run the query: `npm run update-query-results type-a type-b`. This will save the corresponding ids into `queries/results/${type}.json`
 
-* Add the type name to the server type whitelist by adding it to `./config/default.js` types list
+* Add the type name to the server type allowlist by adding it to `./config/default.js` types list
 
 * After starting the server (see above), import the results: `npm run import-query-results type-a type-b`
 
