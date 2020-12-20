@@ -1,3 +1,5 @@
+> :warning: This repository has been archived as now the [inventaire server itself takes care of keeping Elasticsearch entities and wikidata indexes updated](https://github.com/inventaire/inventaire/blob/master/docs/indexation.md)
+
 # Entities Search Engine
 
 Scripts and microservice to feed an ElasticSearch with [Wikidata](https://wikidata.org) and [Inventaire](https://inventaire.io) entities (see *[entities map](https://inventaire.github.io/entities-map/)*), and keep those up-to-date, to answer questions like *"give me all the humans with a name starting by xxx"* in a super snappy way, typically for the needs of an autocomplete field.
